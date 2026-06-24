@@ -18,9 +18,7 @@
   --card-bg:  rgba(8, 14, 31, 0.85);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--black);
@@ -30,12 +28,16 @@ body {
   direction: rtl;
 }
 
-::selection {
-  background: var(--cyan);
-  color: var(--black);
-}
+::selection { background: var(--cyan); color: var(--black); }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 769px) {
+  .hide-desktop { display: none !important; }
+}
