@@ -12,7 +12,7 @@ export interface Project {
   result: string
   tech: string[]
   link: string
-  ogImage: string
+  images: string[] // gallery images
   stats: { label: string; value: string }[]
 }
 
@@ -31,11 +31,16 @@ export const projects: Project[] = [
     result: 'מוצר חי ומייצר הכנסה ב-2024, עם אלפי ספרים שנשלחו לבתים ברחבי העולם.',
     tech: ['React', 'Node.js', 'OpenAI', 'Stable Diffusion', 'AWS S3', 'Stripe', 'Print API'],
     link: 'https://mebook.ai',
-    ogImage: 'https://mebook.ai/wp-content/uploads/2024/05/Group-2sitehero.png',
+    images: [
+      'https://mebook.ai/wp-content/uploads/2024/05/Group-2sitehero.png',
+      'https://picsum.photos/seed/mebook2/800/500',
+      'https://picsum.photos/seed/mebook3/800/500',
+      'https://picsum.photos/seed/mebook4/800/500',
+    ],
     stats: [
-      { label: 'השקה', value: '2024' },
       { label: 'ספרים שנשלחו', value: '1,000+' },
       { label: 'AI Models', value: '3' },
+      { label: 'השקה', value: '2024' },
     ],
   },
   {
@@ -52,7 +57,12 @@ export const projects: Project[] = [
     result: 'מעל 100,000 הורדות, דירוג 4.8 כוכבים, אפליקציה חיה ב-App Store ו-Google Play.',
     tech: ['React Native', 'Node.js', 'PostgreSQL', 'Firebase', 'Algolia Search', 'CDN'],
     link: 'https://nikib.co.il',
-    ogImage: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=85',
+    images: [
+      'https://picsum.photos/seed/food1/800/500',
+      'https://picsum.photos/seed/food2/800/500',
+      'https://picsum.photos/seed/food3/800/500',
+      'https://picsum.photos/seed/food4/800/500',
+    ],
     stats: [
       { label: 'הורדות', value: '100K+' },
       { label: 'דירוג', value: '⭐ 4.8' },
@@ -71,9 +81,14 @@ export const projects: Project[] = [
     desc: 'מערכת IoT חכמה המזהה כניסת ילדים לבריכה ומתריעה להורים בזמן אמת. Computer Vision + התראות Push תוך פחות מ-2 שניות.',
     challenge: 'מצלמה עם מודל Computer Vision שרץ on-device, מחזיקה שבועות על סוללה, עובדת ב-WiFi חלש, ושולחת התראה תוך שניות.',
     result: 'מוצר B2C ו-B2B פעיל בבריכות פרטיות וציבוריות בישראל.',
-    tech: ['Python', 'OpenCV', 'TensorFlow Lite', 'React Native', 'AWS IoT', 'MQTT', 'Push Notifications'],
+    tech: ['Python', 'OpenCV', 'TensorFlow Lite', 'React Native', 'AWS IoT', 'MQTT'],
     link: 'https://lifebuoyalarm.com',
-    ogImage: 'https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=800&q=85',
+    images: [
+      'https://picsum.photos/seed/pool1/800/500',
+      'https://picsum.photos/seed/pool2/800/500',
+      'https://picsum.photos/seed/pool3/800/500',
+      'https://picsum.photos/seed/pool4/800/500',
+    ],
     stats: [
       { label: 'זמן תגובה', value: '<2 שניות' },
       { label: 'דיוק', value: '99.2%' },
@@ -92,21 +107,26 @@ export const projects: Project[] = [
     desc: 'הפלטפורמה הראשונה מסוגה שמנטרת אוטומטית את תוכן הפחמימות בכל ארוחה דרך חיישן CGM, ומספקת דיוק ברמה רפואית לחולי סכרת.',
     challenge: 'בניית מודל AI שמנתח נתוני CGM בזמן אמת ומשייך אותם לארוחות — ללא צורך בתיעוד ידני. אינטגרציה עם ציוד רפואי מוסדר.',
     result: 'Medical startup בשלב Validation עם תמיכת משקיעים, נבדק בניסויים קליניים.',
-    tech: ['React Native', 'Python', 'TensorFlow', 'CGM APIs', 'HL7/FHIR', 'Node.js', 'Medical Cloud'],
+    tech: ['React Native', 'Python', 'TensorFlow', 'CGM APIs', 'HL7/FHIR', 'Node.js'],
     link: 'https://www.makesensedht.com',
-    ogImage: 'https://static.wixstatic.com/media/397d84_e4bfc078a0764a3fb118705609d4fc9b~mv2.png/v1/fill/w_800,h_400,al_c,q_90,enc_avif,quality_auto/Frame%201707481449%20(1).png',
+    images: [
+      'https://static.wixstatic.com/media/397d84_e4bfc078a0764a3fb118705609d4fc9b~mv2.png/v1/fill/w_1610,h_800,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Frame%201707481449%20(1).png',
+      'https://picsum.photos/seed/medical2/800/500',
+      'https://picsum.photos/seed/medical3/800/500',
+      'https://picsum.photos/seed/medical4/800/500',
+    ],
     stats: [
       { label: 'תחום', value: 'Medical AI' },
-      { label: 'שלב', value: 'Clinical Validation' },
+      { label: 'שלב', value: 'Clinical Beta' },
       { label: 'טכנולוגיה', value: 'CGM + ML' },
     ],
   },
 ]
 
 export const clients = [
-  { name: 'ישראל היום', logo: 'https://upload.wikimedia.org/wikipedia/he/7/73/Israel_Hayom_Logo.png', url: 'https://www.israelhayom.co.il' },
-  { name: 'The Times of Israel', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/72/The_Times_of_Israel_logo.png', url: 'https://timesofisrael.com' },
-  { name: 'טלרד', logo: 'https://upload.wikimedia.org/wikipedia/he/thumb/c/c1/Telrad_Logo.png/320px-Telrad_Logo.png', url: 'https://telrad.com' },
-  { name: 'סובארו', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Subaru_logo.svg/320px-Subaru_logo.svg.png', url: 'https://subaru.co.il' },
-  { name: 'Johnnie Walker', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Johnnie_Walker_logo.svg/320px-Johnnie_Walker_logo.svg.png', url: '' },
+  { name: 'ישראל היום', logo: 'https://upload.wikimedia.org/wikipedia/he/7/73/Israel_Hayom_Logo.png' },
+  { name: 'The Times of Israel', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/72/The_Times_of_Israel_logo.png' },
+  { name: 'טלרד', logo: 'https://upload.wikimedia.org/wikipedia/he/thumb/c/c1/Telrad_Logo.png/320px-Telrad_Logo.png' },
+  { name: 'סובארו', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Subaru_logo.svg/320px-Subaru_logo.svg.png' },
+  { name: 'Johnnie Walker', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Johnnie_Walker_logo.svg/320px-Johnnie_Walker_logo.svg.png' },
 ]
