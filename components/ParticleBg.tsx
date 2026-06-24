@@ -2,35 +2,33 @@
 import { useEffect, useRef } from 'react'
 
 export default function ParticleBg() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    let W=0, H=0, animId: number
-    type P = { x:number;y:number;r:number;dx:number;dy:number;o:number }
-    let particles: P[] = []
-    function resize() {
-      W = canvas!.width  = window.innerWidth
-      H = canvas!.height = window.innerHeight
-      particles = Array.from({ length: Math.floor((W*H)/12000) }, () => ({
-        x: Math.random()*W, y: Math.random()*H,
-        r: Math.random()*1.0+0.2,
-        dx: (Math.random()-0.5)*0.08, dy: (Math.random()-0.5)*0.08,
-        o: Math.random()*0.3+0.05,
+    const c = ref.current; if(!c) return
+    const ctx = c.getContext('2d')!
+    let W=0,H=0,id:number
+    type P={x:number;y:number;r:number;dx:number;dy:number;o:number}
+    let ps:P[]=[]
+    function resize(){
+      W=c!.width=window.innerWidth; H=c!.height=window.innerHeight
+      ps=Array.from({length:Math.floor(W*H/14000)},()=>({
+        x:Math.random()*W, y:Math.random()*H,
+        r:Math.random()*0.8+0.2,
+        dx:(Math.random()-.5)*0.06, dy:(Math.random()-.5)*0.06,
+        o:Math.random()*0.22+0.04,
       }))
     }
-    function draw() {
+    function draw(){
       ctx.clearRect(0,0,W,H)
-      for (const p of particles) {
+      for(const p of ps){
         p.x=(p.x+p.dx+W)%W; p.y=(p.y+p.dy+H)%H
         ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
         ctx.fillStyle=`rgba(0,229,255,${p.o})`; ctx.fill()
       }
-      animId=requestAnimationFrame(draw)
+      id=requestAnimationFrame(draw)
     }
-    window.addEventListener('resize', resize)
-    resize(); draw()
-    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animId) }
-  }, [])
-  return <canvas ref={canvasRef} style={{ position:'fixed', inset:0, zIndex:0, pointerEvents:'none' }} />
+    window.addEventListener('resize',resize); resize(); draw()
+    return()=>{ window.removeEventListener('resize',resize); cancelAnimationFrame(id) }
+  },[])
+  return <canvas ref={ref} style={{ position:'fixed',inset:0,zIndex:0,pointerEvents:'none' }} />
 }

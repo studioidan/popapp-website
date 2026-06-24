@@ -3,27 +3,65 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black:   #04070f;
-  --navy:    #070d1e;
-  --cyan:    #00e5ff;
-  --orange:  #ff6b35;
-  --white:   #eef2ff;
-  --grey:    #6b7a99;
-  --border:  rgba(255,255,255,0.08);
-  --glass:   rgba(7,13,30,0.7);
+  --bg-base:        #04070f;
+  --bg-raised:      #080e1f;
+  --bg-overlay:     #0d1530;
+  --border:         rgba(255,255,255,0.07);
+  --border-glow:    rgba(0,229,255,0.25);
+  --text-primary:   #eef2ff;
+  --text-secondary: #6b7a99;
+  --text-muted:     #3d4a66;
+  --accent:         #00e5ff;
+  --accent-warm:    #ff6b35;
+  --accent-dim:     rgba(0,229,255,0.12);
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--black);
-  color: var(--white);
+  background: var(--bg-base);
+  color: var(--text-primary);
   font-family: 'Heebo', sans-serif;
   overflow-x: hidden;
   direction: rtl;
+  /* gradient mesh background */
+  background-image:
+    radial-gradient(ellipse at 75% 0%,   rgba(0,229,255,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 25% 100%, rgba(255,107,53,0.05) 0%, transparent 55%);
+  background-attachment: fixed;
 }
 
-::selection { background: var(--cyan); color: var(--black); }
+/* grid overlay on body */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+::selection { background: var(--accent); color: var(--bg-base); }
 ::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.3); border-radius: 2px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.25); border-radius: 2px; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+@keyframes scroll-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
