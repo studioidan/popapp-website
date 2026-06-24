@@ -12,7 +12,7 @@ export interface Project {
   result: string
   tech: string[]
   link: string
-  images: string[] // gallery images
+  images: { src: string; type: 'desktop'|'mobile'|'product'; label: string }[]
   stats: { label: string; value: string }[]
 }
 
@@ -32,14 +32,15 @@ export const projects: Project[] = [
     tech: ['React', 'Node.js', 'OpenAI', 'Stable Diffusion', 'AWS S3', 'Stripe', 'Print API'],
     link: 'https://mebook.ai',
     images: [
-      'https://mebook.ai/wp-content/uploads/2024/05/Group-2sitehero.png',
-      'https://picsum.photos/seed/mebook2/800/500',
-      'https://picsum.photos/seed/mebook3/800/500',
-      'https://picsum.photos/seed/mebook4/800/500',
+      { src: '/projects/mebook/hero.png',    type: 'desktop', label: 'דף הבית' },
+      { src: '/projects/mebook/gallery.png', type: 'desktop', label: 'גלריית ספרים' },
+      { src: '/projects/mebook/product.png', type: 'desktop', label: 'עמוד מוצר' },
+      { src: '/projects/mebook/mobile1.png', type: 'mobile',  label: 'יצירת ספר — מובייל' },
+      { src: '/projects/mebook/mobile2.png', type: 'mobile',  label: 'פרטי גיבור — מובייל' },
     ],
     stats: [
       { label: 'ספרים שנשלחו', value: '1,000+' },
-      { label: 'AI Models', value: '3' },
+      { label: 'לקוחות מרוצים', value: '52,000+' },
       { label: 'השקה', value: '2024' },
     ],
   },
@@ -58,10 +59,10 @@ export const projects: Project[] = [
     tech: ['React Native', 'Node.js', 'PostgreSQL', 'Firebase', 'Algolia Search', 'CDN'],
     link: 'https://nikib.co.il',
     images: [
-      'https://picsum.photos/seed/food1/800/500',
-      'https://picsum.photos/seed/food2/800/500',
-      'https://picsum.photos/seed/food3/800/500',
-      'https://picsum.photos/seed/food4/800/500',
+      { src: 'https://picsum.photos/seed/niki1/800/500', type: 'desktop', label: 'דף הבית' },
+      { src: 'https://picsum.photos/seed/niki2/390/844', type: 'mobile', label: 'חיפוש מתכונים' },
+      { src: 'https://picsum.photos/seed/niki3/390/844', type: 'mobile', label: 'עמוד מתכון' },
+      { src: 'https://picsum.photos/seed/niki4/800/500', type: 'desktop', label: 'קטגוריות' },
     ],
     stats: [
       { label: 'הורדות', value: '100K+' },
@@ -84,10 +85,10 @@ export const projects: Project[] = [
     tech: ['Python', 'OpenCV', 'TensorFlow Lite', 'React Native', 'AWS IoT', 'MQTT'],
     link: 'https://lifebuoyalarm.com',
     images: [
-      'https://picsum.photos/seed/pool1/800/500',
-      'https://picsum.photos/seed/pool2/800/500',
-      'https://picsum.photos/seed/pool3/800/500',
-      'https://picsum.photos/seed/pool4/800/500',
+      { src: 'https://picsum.photos/seed/pool1/800/500', type: 'desktop', label: 'דף הבית' },
+      { src: 'https://picsum.photos/seed/pool2/390/844', type: 'mobile', label: 'התראה בזמן אמת' },
+      { src: 'https://picsum.photos/seed/pool3/390/844', type: 'mobile', label: 'ניהול מצלמות' },
+      { src: 'https://picsum.photos/seed/pool4/800/500', type: 'desktop', label: 'Dashboard' },
     ],
     stats: [
       { label: 'זמן תגובה', value: '<2 שניות' },
@@ -105,15 +106,15 @@ export const projects: Project[] = [
     gradientFrom: '#10b981',
     gradientTo: '#06b6d4',
     desc: 'הפלטפורמה הראשונה מסוגה שמנטרת אוטומטית את תוכן הפחמימות בכל ארוחה דרך חיישן CGM, ומספקת דיוק ברמה רפואית לחולי סכרת.',
-    challenge: 'בניית מודל AI שמנתח נתוני CGM בזמן אמת ומשייך אותם לארוחות — ללא צורך בתיעוד ידני. אינטגרציה עם ציוד רפואי מוסדר.',
+    challenge: 'בניית מודל AI שמנתח נתוני CGM בזמן אמת ומשייך אותם לארוחות — ללא צורך בתיעוד ידני.',
     result: 'Medical startup בשלב Validation עם תמיכת משקיעים, נבדק בניסויים קליניים.',
     tech: ['React Native', 'Python', 'TensorFlow', 'CGM APIs', 'HL7/FHIR', 'Node.js'],
     link: 'https://www.makesensedht.com',
     images: [
-      'https://static.wixstatic.com/media/397d84_e4bfc078a0764a3fb118705609d4fc9b~mv2.png/v1/fill/w_1610,h_800,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Frame%201707481449%20(1).png',
-      'https://picsum.photos/seed/medical2/800/500',
-      'https://picsum.photos/seed/medical3/800/500',
-      'https://picsum.photos/seed/medical4/800/500',
+      { src: 'https://static.wixstatic.com/media/397d84_e4bfc078a0764a3fb118705609d4fc9b~mv2.png/v1/fill/w_1610,h_800,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Frame%201707481449%20(1).png', type: 'desktop', label: 'Dashboard רפואי' },
+      { src: 'https://picsum.photos/seed/med2/390/844', type: 'mobile', label: 'ניטור גלוקוז' },
+      { src: 'https://picsum.photos/seed/med3/390/844', type: 'mobile', label: 'דוח יומי' },
+      { src: 'https://picsum.photos/seed/med4/800/500', type: 'desktop', label: 'ממשק רופא' },
     ],
     stats: [
       { label: 'תחום', value: 'Medical AI' },
