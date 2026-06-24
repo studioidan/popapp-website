@@ -1,32 +1,33 @@
 'use client'
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { projects } from '@/lib/projects'
 
 /* ─────────────────────────────────────────────
-   3D SCROLL CAROUSEL
+   3D PROJECT CAROUSEL — each card = one project
 ───────────────────────────────────────────── */
-function ScrollCarousel({ images, color, name }: { images: string[]; color: string; name: string }) {
-  const [angle, setAngle] = useState(0)           // current rotation in degrees
+export default function ProjectsSection() {
+  const [angle, setAngle] = useState(0)
   const [dragging, setDragging] = useState(false)
   const [lastX, setLastX] = useState(0)
-  const [lastY, setLastY] = useState(0)
-  const [velocity, setVelocity] = useState(0)
-  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const rafRef = useRef<number>(0)
+  const [selected, setSelected] = useState<number | null>(null)
   const velRef = useRef(0)
   const angleRef = useRef(0)
-  const count = images.length
-  const step = 360 / count
-  const radius = 280  // px — 3D carousel radius
+  const rafRef = useRef<number>(0)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  // Inertia loop
+  const count = projects.length
+  const step = 360 / count
+  const RADIUS = 380   // px — tweak for how spread out the ring is
+
+  /* inertia loop */
   useEffect(() => {
     const tick = () => {
-      if (!dragging && Math.abs(velRef.current) > 0.05) {
-        velRef.current *= 0.94
-        angleRef.current += velRef.current
-        setAngle(angleRef.current)
+      if (!dragging) {
+        if (Math.abs(velRef.current) > 0.02) {
+          velRef.current *= 0.95
+          angleRef.current += velRef.current
+          setAngle(a => a + velRef.current)
+        }
       }
       rafRef.current = requestAnimationFrame(tick)
     }
@@ -34,17 +35,12 @@ function ScrollCarousel({ images, color, name }: { images: string[]; color: stri
     return () => cancelAnimationFrame(rafRef.current)
   }, [dragging])
 
-  // Scroll → rotate
+  /* scroll → rotate */
   useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    let ticking = false
+    const el = containerRef.current; if (!el) return
     const onWheel = (e: WheelEvent) => {
-      // only hijack when hovering this section
-      const rect = el.getBoundingClientRect()
-      if (e.clientY < rect.top || e.clientY > rect.bottom) return
       e.preventDefault()
-      const delta = e.deltaY * 0.12
+      const delta = e.deltaY * 0.06
       velRef.current += delta
       angleRef.current += delta
       setAngle(angleRef.current)
@@ -53,17 +49,16 @@ function ScrollCarousel({ images, color, name }: { images: string[]; color: stri
     return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
-  // Drag handlers
+  /* drag */
   const onPointerDown = (e: React.PointerEvent) => {
-    setDragging(true)
-    setLastX(e.clientX)
+    setDragging(true); setLastX(e.clientX)
     velRef.current = 0
     ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
   }
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging) return
     const dx = e.clientX - lastX
-    const delta = dx * 0.35
+    const delta = dx * 0.3
     velRef.current = delta
     angleRef.current += delta
     setAngle(angleRef.current)
@@ -71,329 +66,250 @@ function ScrollCarousel({ images, color, name }: { images: string[]; color: stri
   }
   const onPointerUp = () => setDragging(false)
 
-  const getCardStyle = (i: number) => {
-    const cardAngle = angle + i * step
-    const rad = (cardAngle * Math.PI) / 180
-    const x = Math.sin(rad) * radius
-    const z = Math.cos(rad) * radius
-    // brightness based on z (facing camera = bright)
-    const brightness = ((z / radius) * 0.4 + 0.6)
-    const scale = 0.72 + ((z / radius) * 0.28)
-    const isCenter = z > radius * 0.7
-
-    return {
-      transform: `translateX(${x}px) translateZ(${z}px) scale(${scale})`,
-      zIndex: Math.round(z + radius),
-      opacity: brightness,
-      filter: `brightness(${brightness}) ${isCenter ? 'drop-shadow(0 20px 48px ' + color + '55)' : ''}`,
-      transition: dragging ? 'none' : 'filter 0.2s',
-      cursor: isCenter ? 'zoom-in' : 'pointer',
-      outline: isCenter ? `2px solid ${color}88` : 'none',
-      borderRadius: 18,
-      overflow: 'hidden' as const,
-      position: 'absolute' as const,
-      width: '100%',
-      height: '100%',
-      top: 0, left: 0,
-    }
+  /* snap to card */
+  const snapTo = (i: number) => {
+    const target = -i * step
+    const current = angleRef.current % 360
+    let diff = ((target - current) % 360 + 540) % 360 - 180
+    velRef.current = 0
+    angleRef.current += diff
+    setAngle(angleRef.current)
   }
 
+  /* get z-depth for card i → determines if it's "front" */
+  const getDepth = (i: number) => {
+    const a = ((angle + i * step) % 360 + 360) % 360
+    return Math.cos((a * Math.PI) / 180)
+  }
+
+  const frontIdx = projects.reduce((best, _, i) =>
+    getDepth(i) > getDepth(best) ? i : best, 0)
+
   return (
-    <div ref={sectionRef} style={{ userSelect: 'none' }}>
+    <section id="projects" style={{
+      position: 'relative', zIndex: 10,
+      padding: 'clamp(60px,8vw,120px) 0',
+    }}>
+      {/* header */}
+      <div style={{ padding: '0 clamp(20px,6vw,100px)', marginBottom: 'clamp(48px,7vw,80px)' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:10,
+          fontSize:'0.72rem', fontWeight:700, letterSpacing:'3px',
+          textTransform:'uppercase', color:'var(--cyan)', marginBottom:16 }}>
+          <span style={{ width:24, height:1.5, background:'var(--cyan)', display:'block' }} />
+          פרויקטים נבחרים
+        </div>
+        <h2 style={{ fontSize:'clamp(1.8rem,4vw,3.2rem)', fontWeight:900,
+          letterSpacing:'-1px', lineHeight:1.1 }}>
+          מוצרים שאנשים <span style={{ color:'var(--cyan)' }}>באמת משתמשים בהם.</span>
+        </h2>
+      </div>
+
+      {/* hint */}
+      <p style={{ textAlign:'center', color:'var(--grey)', fontSize:'0.78rem',
+        marginBottom:32, letterSpacing:'1px' }}>
+        גלול · גרור · לחץ על פרויקט
+      </p>
+
       {/* 3D stage */}
       <div
-        style={{
-          position: 'relative',
-          height: 340,
-          perspective: 1000,
-          perspectiveOrigin: '50% 50%',
-          marginBottom: 48,
-          overflow: 'visible',
-        }}
+        ref={containerRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerLeave={onPointerUp}
+        style={{
+          position: 'relative',
+          height: 480,
+          perspective: 1200,
+          perspectiveOrigin: '50% 45%',
+          cursor: dragging ? 'grabbing' : 'grab',
+          userSelect: 'none',
+          overflow: 'visible',
+        }}
       >
-        {/* carousel ring */}
+        {/* ring */}
         <div style={{
           position: 'absolute',
-          width: 300, height: 200,
           top: '50%', left: '50%',
-          transform: `translate(-50%, -50%)`,
+          width: 0, height: 0,
           transformStyle: 'preserve-3d',
         }}>
-          {images.map((src, i) => {
-            const cardAngle = angle + i * step
-            const rad = (cardAngle * Math.PI) / 180
-            const x = Math.sin(rad) * radius
-            const z = Math.cos(rad) * radius
-            const brightness = (z / radius) * 0.4 + 0.6
-            const scale = 0.72 + (z / radius) * 0.28
-            const isCenter = z > radius * 0.7
+          {projects.map((p, i) => {
+            const a = ((angle + i * step) % 360 + 360) % 360
+            const rad = (a * Math.PI) / 180
+            const x = Math.sin(rad) * RADIUS
+            const z = Math.cos(rad) * RADIUS
+            const depth = z / RADIUS   // -1 to 1
+            const scale = 0.65 + depth * 0.35
+            const opacity = 0.3 + depth * 0.7
+            const isFront = i === frontIdx
+            const blur = isFront ? 0 : Math.max(0, (1 - depth) * 2.5)
 
             return (
               <div
-                key={i}
+                key={p.id}
+                onClick={() => {
+                  if (isFront) setSelected(selected === i ? null : i)
+                  else snapTo(i)
+                }}
                 style={{
                   position: 'absolute',
-                  width: 280, height: 190,
-                  top: '50%', left: '50%',
-                  marginTop: -95, marginLeft: -140,
+                  width: 300, height: 380,
+                  marginLeft: -150, marginTop: -190,
                   transform: `translateX(${x}px) translateZ(${z}px) scale(${scale})`,
-                  zIndex: Math.round(z + radius),
-                  opacity: Math.max(0.15, brightness),
-                  borderRadius: 18,
+                  zIndex: Math.round((depth + 1) * 50),
+                  opacity,
+                  filter: `blur(${blur}px)`,
+                  transition: dragging ? 'none' : 'filter 0.3s, opacity 0.3s',
+                  cursor: isFront ? 'pointer' : 'pointer',
+                  borderRadius: 22,
                   overflow: 'hidden',
-                  cursor: isCenter ? 'zoom-in' : 'pointer',
-                  outline: isCenter ? `2px solid ${color}` : 'none',
-                  outlineOffset: 2,
-                  transition: dragging ? 'none' : 'outline 0.2s',
-                  boxShadow: isCenter ? `0 24px 64px ${color}44` : 'none',
+                  background: `linear-gradient(160deg, ${p.gradientFrom}22, ${p.gradientTo}10, rgba(7,13,30,0.95))`,
+                  border: isFront
+                    ? `1.5px solid ${p.color}99`
+                    : '1px solid rgba(255,255,255,0.07)',
+                  boxShadow: isFront
+                    ? `0 32px 80px ${p.color}44, 0 0 0 1px ${p.color}33`
+                    : '0 8px 32px rgba(0,0,0,0.4)',
+                  backdropFilter: 'blur(0px)',
                 }}
-                onClick={() => { if (isCenter) setLightboxIdx(i) }}
               >
-                <img
-                  src={src}
-                  alt={`${name} screenshot ${i + 1}`}
-                  draggable={false}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }}
-                  onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${name}${i}/560/380` }}
-                />
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: `linear-gradient(to top, ${color}55 0%, transparent 55%)`,
-                  opacity: isCenter ? 1 : 0.5,
-                }} />
-                {isCenter && (
+                {/* card image */}
+                <div style={{ position:'relative', height:175, overflow:'hidden' }}>
+                  <img
+                    src={p.images[0]}
+                    alt={p.name}
+                    draggable={false}
+                    style={{ width:'100%', height:'100%', objectFit:'cover', display:'block', pointerEvents:'none' }}
+                    onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${p.id}/600/400` }}
+                  />
                   <div style={{
-                    position: 'absolute', bottom: 12, right: 12,
-                    background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)',
-                    borderRadius: 8, padding: '4px 10px',
-                    fontSize: '0.7rem', color: '#fff', fontWeight: 600,
-                    display: 'flex', alignItems: 'center', gap: 4,
-                  }}>
-                    🔍 הגדל
+                    position:'absolute', inset:0,
+                    background:`linear-gradient(to bottom, transparent 30%, rgba(7,13,30,0.95) 100%)`,
+                  }} />
+                  {/* tag */}
+                  <div style={{
+                    position:'absolute', top:12, right:12,
+                    background:`${p.color}22`, border:`1px solid ${p.color}66`,
+                    backdropFilter:'blur(8px)',
+                    color:p.color, fontSize:'0.62rem', fontWeight:700,
+                    letterSpacing:'1.5px', textTransform:'uppercase',
+                    padding:'4px 10px', borderRadius:20,
+                  }}>{p.tag}</div>
+                </div>
+
+                {/* card body */}
+                <div style={{ padding:'16px 20px 20px' }}>
+                  <div style={{ fontSize:'2rem', marginBottom:4 }}>{p.emoji}</div>
+                  <h3 style={{ fontSize:'1.3rem', fontWeight:900, letterSpacing:'-0.5px', marginBottom:4 }}>
+                    {p.name}
+                  </h3>
+                  <p style={{ color:p.color, fontSize:'0.78rem', fontWeight:600, marginBottom:10 }}>
+                    {p.tagline}
+                  </p>
+                  <p style={{ color:'var(--grey)', fontSize:'0.8rem', lineHeight:1.65,
+                    display:'-webkit-box', WebkitLineClamp:3, WebkitBoxOrient:'vertical' as const,
+                    overflow:'hidden', marginBottom:16 }}>
+                    {p.desc}
+                  </p>
+
+                  {/* stats row */}
+                  <div style={{ display:'flex', gap:8, marginBottom:16 }}>
+                    {p.stats.slice(0,3).map(s => (
+                      <div key={s.label} style={{
+                        flex:1, textAlign:'center',
+                        background:'rgba(255,255,255,0.04)',
+                        border:'1px solid rgba(255,255,255,0.07)',
+                        borderRadius:8, padding:'8px 4px',
+                      }}>
+                        <div style={{ fontWeight:800, fontSize:'0.85rem', color:p.color }}>{s.value}</div>
+                        <div style={{ fontSize:'0.58rem', color:'var(--grey)', marginTop:1 }}>{s.label}</div>
+                      </div>
+                    ))}
                   </div>
+
+                  {/* CTA — only on front card */}
+                  {isFront && p.link && (
+                    <a href={p.link} target="_blank" rel="noopener noreferrer"
+                      onClick={e => e.stopPropagation()}
+                      style={{
+                        display:'flex', alignItems:'center', justifyContent:'center', gap:6,
+                        background:p.color, color:'#04070f',
+                        textDecoration:'none', padding:'10px',
+                        borderRadius:10, fontWeight:700, fontSize:'0.85rem', fontFamily:'inherit',
+                        transition:'all 0.2s',
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.opacity='0.85'}
+                      onMouseLeave={e => e.currentTarget.style.opacity='1'}
+                    >בקר באתר ←</a>
+                  )}
+                  {!isFront && (
+                    <div style={{ textAlign:'center', color:'rgba(255,255,255,0.25)',
+                      fontSize:'0.75rem', marginTop:4 }}>לחץ לסיבוב</div>
+                  )}
+                </div>
+
+                {/* front glow ring */}
+                {isFront && (
+                  <div style={{
+                    position:'absolute', inset:-2, borderRadius:23,
+                    background:'transparent',
+                    boxShadow:`inset 0 0 0 1.5px ${p.color}`,
+                    pointerEvents:'none',
+                    animation:'pulse-ring 2s ease-in-out infinite',
+                  }} />
                 )}
               </div>
             )
           })}
         </div>
 
-        {/* Arrow buttons */}
-        {[-1, 1].map(dir => (
-          <button
-            key={dir}
-            onClick={() => { velRef.current += dir * -18; angleRef.current += dir * -18 }}
-            style={{
-              position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-              ...(dir === -1 ? { right: 0 } : { left: 0 }),
-              zIndex: 99,
-              background: 'rgba(4,7,15,0.75)', backdropFilter: 'blur(8px)',
-              border: `1px solid ${color}44`, borderRadius: '50%',
-              width: 40, height: 40, cursor: 'pointer',
-              color: color, fontSize: '1.1rem', fontFamily: 'inherit',
-              transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        {/* arrow buttons */}
+        {[{dir:-1,label:'→', pos:'right'}, {dir:1,label:'←', pos:'left'}].map(({dir,label,pos}) => (
+          <button key={pos}
+            onClick={() => {
+              const delta = dir * -60
+              velRef.current += delta * 0.3
+              angleRef.current += delta
+              setAngle(angleRef.current)
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = color; e.currentTarget.style.color = '#04070f' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(4,7,15,0.75)'; e.currentTarget.style.color = color }}
-          >
-            {dir === -1 ? '→' : '←'}
-          </button>
+            style={{
+              position:'absolute', top:'50%', transform:'translateY(-50%)',
+              [pos]: 24, zIndex:200,
+              background:'rgba(7,13,30,0.8)', backdropFilter:'blur(12px)',
+              border:'1px solid rgba(255,255,255,0.1)', borderRadius:'50%',
+              width:48, height:48, cursor:'pointer',
+              color:'var(--white)', fontSize:'1.2rem', fontFamily:'inherit',
+              display:'flex', alignItems:'center', justifyContent:'center',
+              transition:'all 0.2s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background='var(--cyan)'; e.currentTarget.style.color='#04070f' }}
+            onMouseLeave={e => { e.currentTarget.style.background='rgba(7,13,30,0.8)'; e.currentTarget.style.color='var(--white)' }}
+          >{label}</button>
         ))}
       </div>
 
-      {/* hint */}
-      <p style={{ textAlign: 'center', color: 'var(--grey)', fontSize: '0.75rem', marginTop: -32, marginBottom: 8 }}>
-        גלול · גרור · לחץ על התמונה הקדמית להגדלה
-      </p>
-
-      {/* Lightbox */}
-      {lightboxIdx !== null && (
-        <div
-          onClick={() => setLightboxIdx(null)}
-          style={{
-            position: 'fixed', inset: 0, zIndex: 999,
-            background: 'rgba(4,7,15,0.95)', backdropFilter: 'blur(20px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 24, animation: 'fadeIn 0.2s ease',
-          }}
-        >
-          <style>{`@keyframes fadeIn{from{opacity:0}to{opacity:1}} @keyframes zoomIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}`}</style>
-          <button onClick={() => setLightboxIdx(null)}
-            style={{ position: 'absolute', top: 20, left: 20, background: 'rgba(255,255,255,0.1)',
-              border: 'none', color: '#fff', fontSize: '1.4rem', width: 44, height: 44,
-              borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >✕</button>
-          {/* prev/next in lightbox */}
-          <button onClick={e => { e.stopPropagation(); setLightboxIdx((lightboxIdx - 1 + count) % count) }}
-            style={{ position: 'absolute', right: 24, top: '50%', transform: 'translateY(-50%)',
-              background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff',
-              fontSize: '1.4rem', width: 48, height: 48, borderRadius: '50%', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >→</button>
-          <button onClick={e => { e.stopPropagation(); setLightboxIdx((lightboxIdx + 1) % count) }}
-            style={{ position: 'absolute', left: 24, top: '50%', transform: 'translateY(-50%)',
-              background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff',
-              fontSize: '1.4rem', width: 48, height: 48, borderRadius: '50%', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >←</button>
-          <img
-            src={images[lightboxIdx]}
-            alt=""
-            onClick={e => e.stopPropagation()}
+      {/* dot nav */}
+      <div style={{ display:'flex', gap:10, justifyContent:'center', marginTop:40 }}>
+        {projects.map((p, i) => (
+          <button key={i}
+            onClick={() => snapTo(i)}
             style={{
-              maxWidth: '88vw', maxHeight: '82vh', objectFit: 'contain',
-              borderRadius: 16, boxShadow: `0 0 80px ${color}44`,
-              animation: 'zoomIn 0.25s cubic-bezier(0.16,1,0.3,1)',
+              width: i === frontIdx ? 28 : 8, height:8, borderRadius:4,
+              background: i === frontIdx ? p.color : 'rgba(255,255,255,0.15)',
+              border:'none', cursor:'pointer', padding:0,
+              transition:'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
             }}
-            onError={e => { (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${name}${lightboxIdx}/1200/700` }}
           />
-          <div style={{ position: 'absolute', bottom: 24,
-            color: 'rgba(255,255,255,0.4)', fontSize: '0.82rem' }}>
-            {lightboxIdx + 1} / {count}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-/* ─────────────────────────────────────────────
-   PROJECT ROW
-───────────────────────────────────────────── */
-function ProjectRow({ project, index }: { project: typeof projects[0]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-  const isEven = index % 2 === 0
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } }, { threshold: 0.08 })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [])
-
-  return (
-    <div ref={ref} style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: 'clamp(40px,5vw,80px)',
-      alignItems: 'center',
-      marginBottom: 'clamp(120px,14vw,180px)',
-      opacity: visible ? 1 : 0,
-      transform: visible ? 'translateY(0)' : 'translateY(60px)',
-      transition: `opacity 0.75s ease ${index * 0.07}s, transform 0.75s ease ${index * 0.07}s`,
-    }}>
-
-      {/* Gallery */}
-      <div style={{ order: isEven ? 1 : 0 }}>
-        <ScrollCarousel images={project.images} color={project.color} name={project.name} />
+        ))}
       </div>
 
-      {/* Text */}
-      <div style={{ order: isEven ? 0 : 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
-          <span style={{
-            fontSize: '4rem', fontWeight: 900, lineHeight: 1,
-            color: 'transparent', WebkitTextStroke: `1px ${project.color}55`,
-          }}>0{index + 1}</span>
-          <span style={{
-            background: `${project.color}18`, color: project.color,
-            border: `1px solid ${project.color}44`,
-            fontSize: '0.68rem', fontWeight: 700, letterSpacing: '2px',
-            textTransform: 'uppercase', padding: '5px 14px', borderRadius: 20,
-          }}>{project.tag}</span>
-        </div>
-
-        <h3 style={{ fontSize: 'clamp(1.7rem,3vw,2.5rem)', fontWeight: 900, letterSpacing: '-1px', marginBottom: 6 }}>
-          {project.name}
-        </h3>
-        <p style={{ color: project.color, fontSize: '0.95rem', fontWeight: 600, marginBottom: 18 }}>
-          {project.tagline}
-        </p>
-        <p style={{ color: 'var(--grey)', lineHeight: 1.8, fontSize: '0.93rem', marginBottom: 20 }}>
-          {project.desc}
-        </p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
-          <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
-            borderRight: `3px solid ${project.color}`, borderRadius: 8, padding: '13px 18px' }}>
-            <div style={{ fontSize: '0.62rem', fontWeight: 700, letterSpacing: '2px',
-              textTransform: 'uppercase', color: project.color, marginBottom: 5 }}>האתגר</div>
-            <p style={{ color: 'var(--grey)', fontSize: '0.83rem', lineHeight: 1.7 }}>{project.challenge}</p>
-          </div>
-          <div style={{ background: `${project.color}0c`, border: `1px solid ${project.color}28`,
-            borderRadius: 8, padding: '13px 18px' }}>
-            <div style={{ fontSize: '0.62rem', fontWeight: 700, letterSpacing: '2px',
-              textTransform: 'uppercase', color: project.color, marginBottom: 5 }}>התוצאה</div>
-            <p style={{ color: 'var(--white)', fontSize: '0.85rem', lineHeight: 1.7, fontWeight: 500 }}>{project.result}</p>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 24 }}>
-          {project.tech.map(t => (
-            <span key={t} style={{
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-              color: 'var(--grey)', fontSize: '0.71rem', padding: '4px 10px', borderRadius: 20,
-            }}>{t}</span>
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
-          {project.stats.map(s => (
-            <div key={s.label} style={{
-              background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)',
-              borderRadius: 10, padding: '10px 16px', minWidth: 76, textAlign: 'center',
-            }}>
-              <div style={{ fontWeight: 800, fontSize: '1rem', color: project.color }}>{s.value}</div>
-              <div style={{ fontSize: '0.62rem', color: 'var(--grey)', marginTop: 2 }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
-
-        {project.link && (
-          <a href={project.link} target="_blank" rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: project.color, color: '#04070f',
-              textDecoration: 'none', padding: '12px 26px',
-              borderRadius: 10, fontWeight: 700, fontSize: '0.92rem', fontFamily: 'inherit',
-              transition: 'all 0.25s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = `0 10px 36px ${project.color}55` }}
-            onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}
-          >בקר באתר ←</a>
-        )}
-      </div>
-    </div>
-  )
-}
-
-/* ─────────────────────────────────────────────
-   SECTION
-───────────────────────────────────────────── */
-export default function ProjectsSection() {
-  return (
-    <section id="projects" style={{
-      position: 'relative', zIndex: 10,
-      padding: 'clamp(60px,8vw,120px) clamp(20px,6vw,100px)',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10,
-        fontSize: '0.72rem', fontWeight: 700, letterSpacing: '3px',
-        textTransform: 'uppercase', color: 'var(--cyan)', marginBottom: 16 }}>
-        <span style={{ width: 24, height: 1.5, background: 'var(--cyan)', display: 'block' }} />
-        פרויקטים נבחרים
-      </div>
-      <h2 style={{ fontSize: 'clamp(1.8rem,4vw,3.2rem)', fontWeight: 900,
-        letterSpacing: '-1px', lineHeight: 1.1,
-        marginBottom: 'clamp(64px,9vw,110px)' }}>
-        מוצרים שאנשים <span style={{ color: 'var(--cyan)' }}>באמת משתמשים בהם.</span>
-      </h2>
-
-      {projects.map((p, i) => (
-        <ProjectRow key={p.id} project={p} index={i} />
-      ))}
+      <style>{`
+        @keyframes pulse-ring {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+        }
+      `}</style>
     </section>
   )
 }
