@@ -1,21 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;900&display=swap');
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black:    #050810;
-  --navy:     #080e1f;
-  --cyan:     #00e5ff;
-  --cyan-dim: rgba(0, 229, 255, 0.10);
-  --orange:   #ff6b35;
-  --white:    #f0f4ff;
-  --grey:     #7a8aaa;
-  --border:   rgba(0, 229, 255, 0.18);
-  --card-bg:  rgba(8, 14, 31, 0.85);
+  --black:   #04070f;
+  --navy:    #070d1e;
+  --cyan:    #00e5ff;
+  --orange:  #ff6b35;
+  --white:   #eef2ff;
+  --grey:    #6b7a99;
+  --border:  rgba(255,255,255,0.08);
+  --glass:   rgba(7,13,30,0.7);
 }
 
 html { scroll-behavior: smooth; }
@@ -29,15 +24,6 @@ body {
 }
 
 ::selection { background: var(--cyan); color: var(--black); }
-
-::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-/* Responsive utilities */
-@media (max-width: 768px) {
-  .hide-mobile { display: none !important; }
-}
-@media (min-width: 769px) {
-  .hide-desktop { display: none !important; }
-}
+::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.3); border-radius: 2px; }

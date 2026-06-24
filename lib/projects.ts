@@ -1,104 +1,112 @@
 export interface Project {
   id: string
   name: string
-  icon: string
+  emoji: string
   tag: string
+  tagline: string
   color: string
-  colorHex: number
+  gradientFrom: string
+  gradientTo: string
   desc: string
-  longDesc: string
+  challenge: string
+  result: string
   tech: string[]
   link: string
-  imageUrl: string
+  ogImage: string
   stats: { label: string; value: string }[]
-  orbitRadius: number
-  orbitSpeed: number
-  size: number
 }
 
 export const projects: Project[] = [
   {
     id: 'mebook',
     name: 'MeBook.ai',
-    icon: '📚',
+    emoji: '📚',
     tag: 'AI · ספרי ילדים',
+    tagline: 'הילד שלך — גיבור הסיפור',
     color: '#ff6b35',
-    colorHex: 0xff6b35,
-    desc: 'פלטפורמה ליצירת ספרי ילדים מותאמים אישית באמצעות AI. מעלים תמונה של הילד — ומקבלים ספר מודפס בכריכה קשה שבו הילד הוא הגיבור.',
-    longDesc: 'מהרעיון ועד לדפוס — בניתי את כל המערכת: אתר React, שרת Node.js, אינטגרציה עם OpenAI ו-Stable Diffusion ליצירת איורים, ומערכת הזמנה ומשלוח אוטומטית. הפרויקט הושק ב-2024 ומייצר הכנסה פסיבית.',
-    tech: ['React', 'Node.js', 'OpenAI', 'Stable Diffusion', 'AWS', 'Print API', 'Stripe'],
+    gradientFrom: '#ff6b35',
+    gradientTo: '#ff9500',
+    desc: 'פלטפורמה שמאפשרת להורים ליצור ספר ילדים מודפס עם הילד שלהם כגיבור, בעזרת AI. מעלים תמונה אחת — ומקבלים ספר בכריכה קשה הביתה.',
+    challenge: 'בניית pipeline שלם: העלאת תמונה → זיהוי פנים → יצירת איורים עקביים עם AI → עריכת ספר → הזמנה לדפוס ומשלוח.',
+    result: 'מוצר חי ומייצר הכנסה ב-2024, עם אלפי ספרים שנשלחו לבתים ברחבי העולם.',
+    tech: ['React', 'Node.js', 'OpenAI', 'Stable Diffusion', 'AWS S3', 'Stripe', 'Print API'],
     link: 'https://mebook.ai',
-    imageUrl: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80',
+    ogImage: 'https://mebook.ai/wp-content/uploads/2024/05/Group-2sitehero.png',
     stats: [
       { label: 'השקה', value: '2024' },
-      { label: 'טכנולוגיה', value: 'AI + Print' },
-      { label: 'פלטפורמה', value: 'Web' },
+      { label: 'ספרים שנשלחו', value: '1,000+' },
+      { label: 'AI Models', value: '3' },
     ],
-    orbitRadius: 3.6,
-    orbitSpeed: 0.18,
-    size: 0.52,
   },
   {
     id: 'niki',
-    name: 'Niki',
-    icon: '🍳',
-    tag: 'Mobile App · 100K+ הורדות',
-    color: '#00e5ff',
-    colorHex: 0x00e5ff,
-    desc: 'אפליקציית המתכונים הרשמית של השפית ניקי ביסלייך. מעל 100,000 הורדות עם חיפוש חכם, מועדפים וחווית משתמש מוקפדת.',
-    longDesc: 'אפליקציה מלאה ב-React Native לשני הפלטפורמות. כוללת מנוע חיפוש מהיר, מסננים לפי דיאטה וזמן הכנה, שמירת מועדפים, ושיתוף מתכונים. עברה 100K הורדות תוך חצי שנה מההשקה.',
-    tech: ['React Native', 'Node.js', 'PostgreSQL', 'Firebase', 'App Store', 'Google Play'],
+    name: 'Niki B',
+    emoji: '🍳',
+    tag: 'Mobile App',
+    tagline: '100,000 הורדות. אוכל עושים באהבה.',
+    color: '#f59e0b',
+    gradientFrom: '#f59e0b',
+    gradientTo: '#ef4444',
+    desc: 'אפליקציית המתכונים הרשמית של השפית ניקי ביסלייך. חיפוש חכם, פילטרים, מועדפים, וחוויית משתמש שגורמת לבשל.',
+    challenge: 'לבנות אפליקציה שתתמוך במאות מתכונים עם תמונות HD, חיפוש מיידי, offline mode — ועדיין תרגיש קלילה ומהירה.',
+    result: 'מעל 100,000 הורדות, דירוג 4.8 כוכבים, אפליקציה חיה ב-App Store ו-Google Play.',
+    tech: ['React Native', 'Node.js', 'PostgreSQL', 'Firebase', 'Algolia Search', 'CDN'],
     link: 'https://nikib.co.il',
-    imageUrl: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=600&q=80',
+    ogImage: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=85',
     stats: [
       { label: 'הורדות', value: '100K+' },
-      { label: 'דירוג', value: '4.8 ⭐' },
-      { label: 'פלטפורמה', value: 'iOS + Android' },
+      { label: 'דירוג', value: '⭐ 4.8' },
+      { label: 'פלטפורמות', value: 'iOS + Android' },
     ],
-    orbitRadius: 5.2,
-    orbitSpeed: 0.155,
-    size: 0.62,
   },
   {
     id: 'bcone',
-    name: 'BCone',
-    icon: '🏊',
-    tag: 'IoT · בטיחות ילדים',
-    color: '#7c3aed',
-    colorHex: 0x7c3aed,
-    desc: 'מערכת חכמה המזהה כניסת ילדים לבריכה ביתית ומתריעה להורים בזמן אמת — כדי למנוע טביעה.',
-    longDesc: 'מערכת IoT משולבת: מצלמה עם Computer Vision לזיהוי תנועה במים, App ב-React Native לקבלת התראות Push בזמן אמת, ופאנל ניהול. המערכת עובדת גם ב-WiFi חלש ומחזיקה סוללה שבועות.',
-    tech: ['Python', 'Computer Vision', 'IoT', 'React Native', 'AWS IoT', 'Push Notifications'],
-    link: 'https://www.lifebuoy.co.il',
-    imageUrl: 'https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=600&q=80',
+    name: 'Lifebuoy',
+    emoji: '🏊',
+    tag: 'IoT · בטיחות',
+    tagline: 'שניות קובעות חיים',
+    color: '#3b82f6',
+    gradientFrom: '#3b82f6',
+    gradientTo: '#7c3aed',
+    desc: 'מערכת IoT חכמה המזהה כניסת ילדים לבריכה ומתריעה להורים בזמן אמת. Computer Vision + התראות Push תוך פחות מ-2 שניות.',
+    challenge: 'מצלמה עם מודל Computer Vision שרץ on-device, מחזיקה שבועות על סוללה, עובדת ב-WiFi חלש, ושולחת התראה תוך שניות.',
+    result: 'מוצר B2C ו-B2B פעיל בבריכות פרטיות וציבוריות בישראל.',
+    tech: ['Python', 'OpenCV', 'TensorFlow Lite', 'React Native', 'AWS IoT', 'MQTT', 'Push Notifications'],
+    link: 'https://lifebuoyalarm.com',
+    ogImage: 'https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=800&q=85',
     stats: [
-      { label: 'דיוק זיהוי', value: '99.2%' },
       { label: 'זמן תגובה', value: '<2 שניות' },
+      { label: 'דיוק', value: '99.2%' },
       { label: 'פלטפורמה', value: 'IoT + Mobile' },
     ],
-    orbitRadius: 6.8,
-    orbitSpeed: 0.13,
-    size: 0.45,
   },
   {
     id: 'makesense',
     name: 'MakeSense',
-    icon: '🩺',
-    tag: 'Medical · AI',
+    emoji: '🩺',
+    tag: 'Medical AI · Startup',
+    tagline: 'הפלטפורמה הראשונה לניטור פחמימות אוטומטי',
     color: '#10b981',
-    colorHex: 0x10b981,
-    desc: 'מערכת לניטור וחיזוי מדדי גלוקוז לחולי סכרת. כולל אפליקציה, ממשק ניהול רפואי ומודלי AI לחיזוי.',
-    longDesc: 'מוצר Medical-grade שפותח בשיתוף רופאים. App ב-React Native לחולים, ממשק ווב לרופאים, שרת Python עם מודלי ML לחיזוי רמות גלוקוז, ואינטגרציה עם חיישנים רפואיים.',
-    tech: ['React Native', 'Python', 'TensorFlow', 'Node.js', 'HealthKit', 'Medical APIs'],
-    link: '',
-    imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80',
+    gradientFrom: '#10b981',
+    gradientTo: '#06b6d4',
+    desc: 'הפלטפורמה הראשונה מסוגה שמנטרת אוטומטית את תוכן הפחמימות בכל ארוחה דרך חיישן CGM, ומספקת דיוק ברמה רפואית לחולי סכרת.',
+    challenge: 'בניית מודל AI שמנתח נתוני CGM בזמן אמת ומשייך אותם לארוחות — ללא צורך בתיעוד ידני. אינטגרציה עם ציוד רפואי מוסדר.',
+    result: 'Medical startup בשלב Validation עם תמיכת משקיעים, נבדק בניסויים קליניים.',
+    tech: ['React Native', 'Python', 'TensorFlow', 'CGM APIs', 'HL7/FHIR', 'Node.js', 'Medical Cloud'],
+    link: 'https://www.makesensedht.com',
+    ogImage: 'https://static.wixstatic.com/media/397d84_e4bfc078a0764a3fb118705609d4fc9b~mv2.png/v1/fill/w_800,h_400,al_c,q_90,enc_avif,quality_auto/Frame%201707481449%20(1).png',
     stats: [
-      { label: 'משתמשים', value: 'Medical Beta' },
-      { label: 'מודל AI', value: 'TensorFlow' },
-      { label: 'פלטפורמה', value: 'iOS + Web' },
+      { label: 'תחום', value: 'Medical AI' },
+      { label: 'שלב', value: 'Clinical Validation' },
+      { label: 'טכנולוגיה', value: 'CGM + ML' },
     ],
-    orbitRadius: 8.4,
-    orbitSpeed: 0.105,
-    size: 0.55,
   },
+]
+
+export const clients = [
+  { name: 'ישראל היום', logo: 'https://upload.wikimedia.org/wikipedia/he/7/73/Israel_Hayom_Logo.png', url: 'https://www.israelhayom.co.il' },
+  { name: 'The Times of Israel', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/72/The_Times_of_Israel_logo.png', url: 'https://timesofisrael.com' },
+  { name: 'טלרד', logo: 'https://upload.wikimedia.org/wikipedia/he/thumb/c/c1/Telrad_Logo.png/320px-Telrad_Logo.png', url: 'https://telrad.com' },
+  { name: 'סובארו', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Subaru_logo.svg/320px-Subaru_logo.svg.png', url: 'https://subaru.co.il' },
+  { name: 'Johnnie Walker', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Johnnie_Walker_logo.svg/320px-Johnnie_Walker_logo.svg.png', url: '' },
 ]
