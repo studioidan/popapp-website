@@ -18,8 +18,8 @@ export default function ParticleBg() {
     let animId: number
 
     function resize() {
-      W = canvas.width  = window.innerWidth
-      H = canvas.height = window.innerHeight
+      W = canvas!.width  = window.innerWidth
+      H = canvas!.height = window.innerHeight
       particles = Array.from({ length: Math.floor((W * H) / 9000) }, () => ({
         x: Math.random() * W, y: Math.random() * H,
         r: Math.random() * 1.2 + 0.2,
