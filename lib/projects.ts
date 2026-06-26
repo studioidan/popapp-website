@@ -125,9 +125,25 @@ export const projects: Project[] = [
 ]
 
 export const clients = [
-  { name: 'ישראל היום', logo: 'https://upload.wikimedia.org/wikipedia/he/7/73/Israel_Hayom_Logo.png' },
-  { name: 'The Times of Israel', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/72/The_Times_of_Israel_logo.png' },
-  { name: 'טלרד', logo: 'https://upload.wikimedia.org/wikipedia/he/thumb/c/c1/Telrad_Logo.png/320px-Telrad_Logo.png' },
-  { name: 'סובארו', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Subaru_logo.svg/320px-Subaru_logo.svg.png' },
-  { name: 'Johnnie Walker', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Johnnie_Walker_logo.svg/320px-Johnnie_Walker_logo.svg.png' },
+  {
+    name: 'ישראל היום',
+    logo: 'https://upload.wikimedia.org/wikipedia/he/7/73/Israel_Hayom_Logo.png',
+  },
+  {
+    name: 'The Times of Israel',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/forty/TOI_logo.svg',
+    logoFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/TOI_logo.svg/512px-TOI_logo.svg.png',
+  },
+  {
+    name: 'טלרד',
+    logo: 'https://upload.wikimedia.org/wikipedia/he/c/c1/Telrad_Logo.png',
+  },
+  {
+    name: 'סובארו',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Subaru_logo.svg/320px-Subaru_logo.svg.png',
+  },
+  {
+    name: 'Johnnie Walker',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Johnnie_Walker_logo.svg/200px-Johnnie_Walker_logo.svg.png',
+  },
 ]
