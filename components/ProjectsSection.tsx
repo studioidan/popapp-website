@@ -158,32 +158,35 @@ function Gallery({ project }: { project: typeof projects[0] }) {
           }
         </div>
 
-        {/* nav arrows */}
+        {/* nav arrows — centered on the frame visual, not the whole div */}
         {project.images.length > 1 && (
-          <>
-            <button onClick={() => go('left')} style={{
-              position:'absolute', right:-16, top:'45%', transform:'translateY(-50%)',
-              width:36, height:36, borderRadius:'50%', border:`1px solid ${project.color}44`,
-              background:'rgba(4,7,15,0.85)', backdropFilter:'blur(12px)',
-              color:project.color, fontSize:'1rem', cursor:'pointer',
-              display:'flex', alignItems:'center', justifyContent:'center',
-              transition:'all 0.2s', zIndex:10,
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background=project.color; e.currentTarget.style.color='#04070f' }}
-              onMouseLeave={e => { e.currentTarget.style.background='rgba(4,7,15,0.85)'; e.currentTarget.style.color=project.color }}
-            >→</button>
-            <button onClick={() => go('right')} style={{
-              position:'absolute', left:-16, top:'45%', transform:'translateY(-50%)',
-              width:36, height:36, borderRadius:'50%', border:`1px solid ${project.color}44`,
-              background:'rgba(4,7,15,0.85)', backdropFilter:'blur(12px)',
-              color:project.color, fontSize:'1rem', cursor:'pointer',
-              display:'flex', alignItems:'center', justifyContent:'center',
-              transition:'all 0.2s', zIndex:10,
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background=project.color; e.currentTarget.style.color='#04070f' }}
-              onMouseLeave={e => { e.currentTarget.style.background='rgba(4,7,15,0.85)'; e.currentTarget.style.color=project.color }}
-            >←</button>
-          </>
+          <div style={{
+            position:'absolute', inset:0,
+            display:'flex', alignItems:'center', justifyContent:'space-between',
+            pointerEvents:'none',
+            padding:'0 4px',
+            // stop above the label (approx 48px for stand+label)
+            paddingBottom: 48,
+          }}>
+            {[
+              { dir:'left' as const, label:'→' },
+              { dir:'right' as const, label:'←' },
+            ].map(({ dir, label }) => (
+              <button key={dir} onClick={() => go(dir)} style={{
+                pointerEvents:'auto',
+                width:36, height:36, borderRadius:'50%',
+                border:`1px solid ${project.color}55`,
+                background:'rgba(4,7,15,0.88)', backdropFilter:'blur(12px)',
+                color:project.color, fontSize:'0.95rem', cursor:'pointer',
+                display:'flex', alignItems:'center', justifyContent:'center',
+                transition:'all 0.2s', flexShrink:0,
+                boxShadow:`0 4px 16px rgba(0,0,0,0.5)`,
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background=project.color; e.currentTarget.style.color='#04070f' }}
+                onMouseLeave={e => { e.currentTarget.style.background='rgba(4,7,15,0.88)'; e.currentTarget.style.color=project.color }}
+              >{label}</button>
+            ))}
+          </div>
         )}
       </div>
 
