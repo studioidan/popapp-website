@@ -42,8 +42,8 @@ function DesktopFrame({ src, color, label }: { src:string; color:string; label:s
               popapp.co.il
             </div>
           </div>
-          {/* screenshot */}
-          <div style={{ aspectRatio:'16/9', overflow:'hidden', position:'relative', background:'#04040e' }}>
+          {/* screenshot — fixed height to match mobile container */}
+          <div style={{ height:270, overflow:'hidden', position:'relative', background:'#04040e' }}>
             <img src={src} alt={label}
               style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
               onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}/1200/675` }}
@@ -89,9 +89,9 @@ function MobileFrame({ src, color, label }: { src:string; color:string; label:st
             borderRadius: 4, margin: '0 auto 10px',
             boxShadow: `inset 0 1px 0 rgba(255,255,255,0.05)`,
           }} />
-          {/* screen */}
+          {/* screen — fixed height to match desktop container */}
           <div style={{ borderRadius:22, overflow:'hidden',
-            aspectRatio:'9/19.5', position:'relative', background:'#000' }}>
+            height:270, position:'relative', background:'#000' }}>
             <img src={src} alt={label}
               style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
               onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}m/390/844` }}
@@ -144,18 +144,26 @@ function Gallery({ project }: { project: typeof projects[0] }) {
 
   return (
     <div>
-      {/* main frame */}
+      {/* main frame — fixed height container so switching mobile↔desktop never jumps */}
       <div style={{ position:'relative', marginBottom:20 }}>
-        {/* animated frame */}
         <div style={{
-          opacity: animDir ? 0 : 1,
-          transform: animDir === 'right' ? 'translateX(-12px)' : animDir === 'left' ? 'translateX(12px)' : 'none',
-          transition: 'opacity 0.2s ease, transform 0.2s ease',
+          height: 360,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
-          {img.type === 'mobile'
-            ? <MobileFrame src={img.src} color={project.color} label={img.label} />
-            : <DesktopFrame src={img.src} color={project.color} label={img.label} />
-          }
+          {/* animated frame */}
+          <div style={{
+            width: '100%',
+            opacity: animDir ? 0 : 1,
+            transform: animDir === 'right' ? 'translateX(-12px)' : animDir === 'left' ? 'translateX(12px)' : 'none',
+            transition: 'opacity 0.2s ease, transform 0.2s ease',
+          }}>
+            {img.type === 'mobile'
+              ? <MobileFrame src={img.src} color={project.color} label={img.label} />
+              : <DesktopFrame src={img.src} color={project.color} label={img.label} />
+            }
+          </div>
         </div>
 
         {/* nav arrows — centered on the frame visual, not the whole div */}
