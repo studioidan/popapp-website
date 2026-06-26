@@ -87,7 +87,7 @@ export default function Hero() {
             transition: 'opacity 0.32s, transform 0.32s',
             display: 'inline-block',
           }}>{WORDS[wordIdx]}</span>
-          <span> מקצה לקצה</span>
+          <span style={{ marginRight: 12 }}> מקצה לקצה</span>
         </div>
 
         {/* 3 buttons */}
@@ -140,7 +140,7 @@ export default function Hero() {
 
       {/* scroll indicator */}
       <div style={{
-        position: 'absolute', bottom: 32, left: '50%',
+        position: 'absolute', bottom: -24, left: '50%',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
         animation: 'floatY 2.5s ease-in-out infinite',
       }}>
