@@ -242,25 +242,28 @@ function MiniDesktop({ src, color, label }: { src:string; color:string; label:st
 /* ── MINI MOBILE THUMB ──────────────────────────────── */
 function MiniMobile({ src, color, label }: { src:string; color:string; label:string }) {
   return (
-    <div style={{ maxWidth:100, margin:'0 auto' }}>
+    <div style={{ maxWidth: 90, margin:'0 auto' }}>
       <div style={{
-        borderRadius:16, border:`2px solid ${color}44`,
-        background:'#08081a', padding:'5px 3px',
+        borderRadius: 14, border:`2px solid ${color}44`,
+        background:'#08081a', padding:'4px 3px',
         boxShadow:`0 0 0 1px ${color}18, 0 8px 24px rgba(0,0,0,0.5)`,
         transition:'all 0.25s',
       }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor=`${color}99`; e.currentTarget.style.boxShadow=`0 0 0 1px ${color}44, 0 12px 32px ${color}22` }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor=`${color}44`; e.currentTarget.style.boxShadow=`0 0 0 1px ${color}18, 0 8px 24px rgba(0,0,0,0.5)` }}
+        onMouseEnter={e=>{e.currentTarget.style.borderColor=`${color}99`;e.currentTarget.style.boxShadow=`0 0 0 1px ${color}44, 0 12px 32px ${color}22`}}
+        onMouseLeave={e=>{e.currentTarget.style.borderColor=`${color}44`;e.currentTarget.style.boxShadow=`0 0 0 1px ${color}18, 0 8px 24px rgba(0,0,0,0.5)`}}
       >
-        <div style={{ width:20,height:3,background:'#1a1a30',borderRadius:2,margin:'0 auto 4px' }} />
-        <div style={{ borderRadius:10, overflow:'hidden', height:100 }}>
-          <img src={src} alt={label} style={{ width:'100%',height:'100%',objectFit:'cover',display:'block' }}
-            onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}m/200/430`}} />
+        <div style={{ width:18, height:3, background:'#1a1a30', borderRadius:2, margin:'0 auto 3px' }} />
+        {/* correct 9:19.5 aspect ratio */}
+        <div style={{ borderRadius:8, overflow:'hidden', aspectRatio:'9/19.5', position:'relative' }}>
+          <img src={src} alt={label}
+            style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+            onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}m/200/430`}}
+          />
         </div>
-        <div style={{ width:16,height:2,background:`${color}44`,borderRadius:1,margin:'4px auto 0' }} />
+        <div style={{ width:14, height:2, background:`${color}44`, borderRadius:1, margin:'3px auto 0' }} />
       </div>
-      <p style={{ textAlign:'center',marginTop:6,fontSize:'0.6rem',
-        color:'var(--text-muted)',letterSpacing:'0.5px' }}>{label}</p>
+      <p style={{ textAlign:'center', marginTop:6, fontSize:'0.6rem',
+        color:'var(--text-muted)', letterSpacing:'0.5px' }}>{label}</p>
     </div>
   )
 }
