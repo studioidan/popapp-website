@@ -52,22 +52,11 @@ export default function ClientsStrip() {
               <img
                 src={c.logo}
                 alt={c.name}
-                style={{ height: 34, maxWidth: 130, objectFit: 'contain',
+                style={{ height: 52, maxWidth: 180, objectFit: 'contain',
                   filter: 'brightness(0) invert(1)', display: 'block' }}
                 onError={e => {
-                  const el = e.target as HTMLImageElement
-                  if ('logoFallback' in c && el.src !== (c as any).logoFallback) {
-                    el.src = (c as any).logoFallback
-                  } else {
-                    el.style.display = 'none'
-                    const parent = el.parentElement
-                    if (parent && !parent.querySelector('span')) {
-                      const span = document.createElement('span')
-                      span.textContent = c.name
-                      span.style.cssText = 'font-weight:700;font-size:0.88rem;color:rgba(255,255,255,0.7);white-space:nowrap;font-family:Heebo,sans-serif'
-                      parent.appendChild(span)
-                    }
-                  }
+                  // just hide — no fallback text
+                  (e.target as HTMLImageElement).parentElement!.style.display = 'none'
                 }}
               />
             </div>
