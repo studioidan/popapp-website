@@ -310,46 +310,59 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
       marginBottom:'clamp(72px,9vw,120px)',
     }}>
       {/* header */}
-      <div style={{ display:'flex', alignItems:'center', gap:16, marginBottom:28, flexWrap:'wrap' }}>
-        <div style={{
-          width:52, height:52, borderRadius:14, flexShrink:0,
-          background:`linear-gradient(135deg,${project.gradientFrom}33,${project.gradientTo}22)`,
-          border:`1.5px solid ${project.color}44`,
-          display:'flex', alignItems:'center', justifyContent:'center',
-          fontSize:'1.7rem',
-          boxShadow:`0 8px 24px ${project.color}22, inset 0 1px 0 rgba(255,255,255,0.08)`,
-        }}>{project.emoji}</div>
+      <div style={{ marginBottom:28 }}>
+        {/* top row: emoji + name + tag */}
+        <div style={{ display:'flex', alignItems:'center', gap:14, marginBottom:8, flexWrap:'wrap' }}>
+          <div style={{
+            width:48, height:48, borderRadius:13, flexShrink:0,
+            background:`linear-gradient(135deg,${project.gradientFrom}33,${project.gradientTo}22)`,
+            border:`1.5px solid ${project.color}44`,
+            display:'flex', alignItems:'center', justifyContent:'center',
+            fontSize:'1.5rem',
+            boxShadow:`0 6px 20px ${project.color}22`,
+          }}>{project.emoji}</div>
 
-        <div style={{ flex:1, minWidth:0 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
-            <h3 style={{ fontSize:'clamp(1.4rem,3vw,2rem)', fontWeight:900,
-              letterSpacing:'-0.8px', lineHeight:1 }}>{project.name}</h3>
-            <span style={{
-              background:`${project.color}15`, color:project.color,
-              border:`1px solid ${project.color}44`,
-              fontSize:'0.62rem', fontWeight:700, letterSpacing:'1.5px',
-              textTransform:'uppercase', padding:'3px 10px', borderRadius:20,
-            }}>{project.tag}</span>
-          </div>
-          <p style={{ color:project.color, fontSize:'0.82rem', fontWeight:600, marginTop:4 }}>
-            {project.tagline}
-          </p>
+          <h3 style={{ fontSize:'clamp(1.3rem,3vw,2rem)', fontWeight:900,
+            letterSpacing:'-0.8px', lineHeight:1 }}>{project.name}</h3>
+
+          <span style={{
+            background:`${project.color}15`, color:project.color,
+            border:`1px solid ${project.color}44`,
+            fontSize:'0.6rem', fontWeight:700, letterSpacing:'1.5px',
+            textTransform:'uppercase', padding:'3px 10px', borderRadius:20,
+            display:'none',
+          }} className="tag-desktop">{project.tag}</span>
         </div>
 
+        {/* tagline */}
+        <p style={{ color:project.color, fontSize:'0.82rem', fontWeight:600, marginBottom:12 }}>
+          {project.tagline}
+        </p>
+
+        {/* link — only on desktop */}
         {project.link && (
-          <a href={project.link} target="_blank" rel="noopener noreferrer" style={{
-            display:'inline-flex', alignItems:'center', gap:7,
-            background:'rgba(255,255,255,0.04)', backdropFilter:'blur(12px)',
-            border:`1px solid ${project.color}44`, color:project.color,
-            textDecoration:'none', padding:'9px 20px', borderRadius:10,
-            fontWeight:600, fontSize:'0.82rem', fontFamily:'inherit',
-            transition:'all 0.25s', whiteSpace:'nowrap',
-          }}
+          <a href={project.link} target="_blank" rel="noopener noreferrer"
+            className="link-desktop"
+            style={{
+              display:'none', alignItems:'center', gap:7,
+              background:'rgba(255,255,255,0.04)', backdropFilter:'blur(12px)',
+              border:`1px solid ${project.color}44`, color:project.color,
+              textDecoration:'none', padding:'9px 20px', borderRadius:10,
+              fontWeight:600, fontSize:'0.82rem', fontFamily:'inherit',
+              transition:'all 0.25s', whiteSpace:'nowrap',
+            }}
             onMouseEnter={e=>{e.currentTarget.style.background=`${project.color}18`;e.currentTarget.style.transform='translateY(-2px)'}}
             onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.04)';e.currentTarget.style.transform=''}}
           >🔗 בקר באתר</a>
         )}
       </div>
+
+      <style>{`
+        @media (min-width: 600px) {
+          .tag-desktop { display: inline-block !important; }
+          .link-desktop { display: inline-flex !important; }
+        }
+      `}</style>
 
       {/* 2 col */}
       <div style={{ display:'grid',
