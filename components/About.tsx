@@ -64,7 +64,7 @@ export default function About() {
           מהנדס תוכנה עצמאי.<br />
           <span style={{ background:'linear-gradient(135deg,#00e5ff,#0077ff)',
             WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
-            שנגעתי בכמעט כל תחום אפשרי.
+            נגעתי כמעט בכל תחום.
           </span>
         </h2>
 
@@ -74,7 +74,12 @@ export default function About() {
         </p>
 
         <p ref={r(4)} data-i="4" style={{ fontSize:'clamp(1rem,1.8vw,1.12rem)', fontWeight:300,
-          color:'var(--text-secondary)', lineHeight:1.9, marginBottom:56, maxWidth:680, ...anim(0.18) }}>
+          color:'var(--text-secondary)', lineHeight:1.9, marginBottom:16, maxWidth:680, ...anim(0.18) }}>
+          יש לי אובססיה ללמוד דברים חדשים — אני אוהב לצאת מאזור הנוחות שלי, להתמודד עם תחומים שלא מכרתי, ולצאת מהם עם פתרון שעובד. זה מה שגרם לי לנגוע בכל כך הרבה עולמות שונים.
+        </p>
+
+        <p ref={r(5)} data-i="5" style={{ fontSize:'clamp(1rem,1.8vw,1.12rem)', fontWeight:300,
+          color:'var(--text-secondary)', lineHeight:1.9, marginBottom:56, maxWidth:680, ...anim(0.22) }}>
           אני לא עובד עבורך, אני עובד{' '}
           <strong style={{ color:'var(--text-primary)', fontWeight:600 }}>איתך</strong>.
           {' '}פגישה אחת מספיקה כדי שאבין בדיוק מה צריך, ומשם קוד שרץ תוך ימים, לא חודשים. בלי ישיבות מיותרות, בלי תקציב שנשרף.
@@ -83,11 +88,11 @@ export default function About() {
         <div style={{ display:'grid',
           gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,200px),1fr))', gap:16 }}>
           {HIGHLIGHTS.map((h, i) => (
-            <div key={h.title} ref={r(5+i)} data-i={5+i}
+            <div key={h.title} ref={r(6+i)} data-i={6+i}
               style={{ background:'rgba(255,255,255,0.03)', backdropFilter:'blur(12px)',
                 border:'1px solid rgba(255,255,255,0.07)', borderRadius:18,
-                padding:'clamp(20px,3vw,28px)', ...anim((5+i)*0.07),
-                transition: `opacity 0.7s ease ${(5+i)*0.07}s, transform 0.7s ease ${(5+i)*0.07}s, border-color 0.3s, transform 0.3s` }}
+                padding:'clamp(20px,3vw,28px)', ...anim((6+i)*0.07),
+                transition: `opacity 0.7s ease ${(6+i)*0.07}s, transform 0.7s ease ${(6+i)*0.07}s, border-color 0.3s, transform 0.3s` }}
               onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(0,229,255,0.25)'; e.currentTarget.style.transform='translateY(-4px)' }}
               onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'; e.currentTarget.style.transform='translateY(0)' }}
             >
@@ -98,7 +103,7 @@ export default function About() {
           ))}
         </div>
 
-        <div ref={r(9)} data-i="9" style={{ display:'flex', gap:'clamp(24px,5vw,64px)',
+        <div ref={r(10)} data-i="10" style={{ display:'flex', gap:'clamp(24px,5vw,64px)',
           flexWrap:'wrap', paddingTop:48, marginTop:48,
           borderTop:'1px solid var(--border)', ...anim(0.5) }}>
           {[
