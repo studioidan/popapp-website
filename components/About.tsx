@@ -1,11 +1,14 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import { Zap, Brain, Stethoscope, Smile, DollarSign, Handshake } from 'lucide-react'
 
 const HIGHLIGHTS = [
-  { icon: '🚀', title: 'מהיר להבין', desc: 'פגישה אחת מספיקה. אני מבין את הצורך, מזהה את הפתרון ומתחיל לבנות.' },
-  { icon: '🧠', title: 'Full-Stack אמיתי', desc: 'Mobile, Web, AI, IoT, Backend, Cloud. בכל שכבה, בכל טכנולוגיה.' },
-  { icon: '😄', title: 'כיף לעבוד איתי', desc: 'שקוף, ישיר, נגיש. תמיד בתמונה. לקוחות חוזרים כי הדרך לא פחות חשובה מהיעד.' },
-  { icon: '🏥', title: 'Medical Startups', desc: 'ניסיון ייחודי עם סטארטאפים רפואיים. רגולציה, CGM APIs, HL7/FHIR.' },
+  { Icon: Zap,         title: 'מהיר להבין',      text: 'פגישה אחת מספיקה. אני מבין את הצורך, מזהה את הפתרון ומתחיל לבנות.', color: '#00e5ff', anim: 'pulse' },
+  { Icon: Brain,       title: 'Full-Stack אמיתי', text: 'Mobile, Web, AI, IoT, Backend, Cloud. בכל שכבה, בכל טכנולוגיה.', color: '#7c3aed', anim: 'none' },
+  { Icon: Stethoscope, title: 'Medical Startups', text: 'ניסיון ייחודי עם סטארטאפים רפואיים. רגולציה, CGM APIs, HL7/FHIR.', color: '#10b981', anim: 'none' },
+  { Icon: Smile,       title: 'כיף לעבוד איתי',  text: 'שקוף, ישיר, נגיש. תמיד בתמונה. לקוחות חוזרים כי הדרך לא פחות חשובה מהיעד.', color: '#f59e0b', anim: 'spin-slow' },
+  { Icon: DollarSign,  title: 'תקציב בשליטה',    text: 'אתה משלם על קוד שרץ, לא על PM, QA וארכיטקטים שמעבירים הודעות.', color: '#ff6b35', anim: 'none' },
+  { Icon: Handshake,   title: 'שותף, לא קבלן',   text: 'מבין את הביזנס, שואל שאלות קשות, ומגיע עם הצעות משלי.', color: '#00e5ff', anim: 'none' },
 ]
 
 export default function About() {
@@ -44,7 +47,6 @@ export default function About() {
         pointerEvents:'none' }} />
 
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
-
         <div ref={r(0)} data-i="0" style={{ display:'inline-flex', alignItems:'center', gap:10,
           fontSize:'0.68rem', fontWeight:700, letterSpacing:'3px',
           textTransform:'uppercase', color:'var(--accent)', marginBottom:24, ...anim() }}>
@@ -52,7 +54,6 @@ export default function About() {
           מי אני
         </div>
 
-        {/* name */}
         <p ref={r(1)} data-i="1" style={{ fontSize:'clamp(0.9rem,1.6vw,1rem)',
           fontWeight:600, color:'var(--text-muted)', letterSpacing:'1px',
           textTransform:'uppercase', marginBottom:12, ...anim(0.06) }}>
@@ -75,7 +76,7 @@ export default function About() {
 
         <p ref={r(4)} data-i="4" style={{ fontSize:'clamp(1rem,1.8vw,1.12rem)', fontWeight:300,
           color:'var(--text-secondary)', lineHeight:1.9, marginBottom:16, maxWidth:680, ...anim(0.18) }}>
-          יש לי אובססיה ללמוד דברים חדשים — אני אוהב לצאת מאזור הנוחות שלי, להתמודד עם תחומים שלא מכרתי, ולצאת מהם עם פתרון שעובד. זה מה שגרם לי לנגוע בכל כך הרבה עולמות שונים.
+          יש לי אובססיה ללמוד דברים חדשים. אני אוהב לצאת מאזור הנוחות שלי, להתמודד עם תחומים שלא מכרתי, ולצאת מהם עם פתרון שעובד. זה מה שגרם לי לנגוע בכל כך הרבה עולמות שונים.
         </p>
 
         <p ref={r(5)} data-i="5" style={{ fontSize:'clamp(1rem,1.8vw,1.12rem)', fontWeight:300,
@@ -85,6 +86,7 @@ export default function About() {
           {' '}פגישה אחת מספיקה כדי שאבין בדיוק מה צריך, ומשם קוד שרץ תוך ימים, לא חודשים. בלי ישיבות מיותרות, בלי תקציב שנשרף.
         </p>
 
+        {/* highlights grid */}
         <div style={{ display:'grid',
           gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,200px),1fr))', gap:16 }}>
           {HIGHLIGHTS.map((h, i) => (
@@ -92,17 +94,39 @@ export default function About() {
               style={{ background:'rgba(255,255,255,0.03)', backdropFilter:'blur(12px)',
                 border:'1px solid rgba(255,255,255,0.07)', borderRadius:18,
                 padding:'clamp(20px,3vw,28px)', ...anim((6+i)*0.07),
-                transition: `opacity 0.7s ease ${(6+i)*0.07}s, transform 0.7s ease ${(6+i)*0.07}s, border-color 0.3s, transform 0.3s` }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(0,229,255,0.25)'; e.currentTarget.style.transform='translateY(-4px)' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'; e.currentTarget.style.transform='translateY(0)' }}
+                transition: `opacity 0.7s ease ${(6+i)*0.07}s, transform 0.7s ease ${(6+i)*0.07}s, border-color 0.3s, box-shadow 0.3s` }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor=`${h.color}44`
+                e.currentTarget.style.transform='translateY(-4px)'
+                e.currentTarget.style.boxShadow=`0 16px 48px ${h.color}14`
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'
+                e.currentTarget.style.transform='translateY(0)'
+                e.currentTarget.style.boxShadow='none'
+              }}
             >
-              <div style={{ fontSize:'1.8rem', marginBottom:12 }}>{h.icon}</div>
+              <div style={{ marginBottom:16 }}>
+                <h.Icon
+                  size={28}
+                  color={h.color}
+                  strokeWidth={1.75}
+                  style={{
+                    animation: h.anim === 'pulse'
+                      ? 'icon-pulse 2s ease-in-out infinite'
+                      : h.anim === 'spin-slow'
+                      ? 'icon-spin 6s linear infinite'
+                      : 'none',
+                  }}
+                />
+              </div>
               <div style={{ fontWeight:700, fontSize:'0.98rem', marginBottom:8 }}>{h.title}</div>
-              <p style={{ color:'var(--text-secondary)', fontSize:'0.84rem', lineHeight:1.72 }}>{h.desc}</p>
+              <p style={{ color:'var(--text-secondary)', fontSize:'0.84rem', lineHeight:1.72 }}>{h.text}</p>
             </div>
           ))}
         </div>
 
+        {/* stats */}
         <div ref={r(10)} data-i="10" style={{ display:'flex', gap:'clamp(24px,5vw,64px)',
           flexWrap:'wrap', paddingTop:48, marginTop:48,
           borderTop:'1px solid var(--border)', ...anim(0.5) }}>
@@ -121,6 +145,17 @@ export default function About() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @keyframes icon-pulse {
+          0%,100% { opacity:1; transform:scale(1); }
+          50% { opacity:0.7; transform:scale(1.15); }
+        }
+        @keyframes icon-spin {
+          from { transform:rotate(0deg); }
+          to   { transform:rotate(360deg); }
+        }
+      `}</style>
     </section>
   )
 }
