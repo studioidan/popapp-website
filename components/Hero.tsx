@@ -77,20 +77,17 @@ export default function Hero() {
           <span style={{ display: 'block', color: 'var(--accent-warm)' }}>חברה שלמה.</span>
         </h1>
 
-        {/* word cycle */}
-        <div className="ha" style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          gap: 10, marginBottom: 52, flexWrap: 'wrap',
-        }}>
-          <span style={{ color:'var(--text-secondary)', fontSize:'clamp(1rem,2vw,1.2rem)', fontWeight:300 }}>בונה</span>
+        {/* word cycle — all inline, no wrap */}
+        <div className="ha" style={{ marginBottom: 52, fontSize:'clamp(1rem,2vw,1.2rem)', color:'var(--text-secondary)', fontWeight:300 }}>
+          <span>בונה </span>
           <span style={{
-            fontSize: 'clamp(1rem,2vw,1.2rem)', fontWeight: 700, color: 'var(--accent)',
+            fontWeight: 700, color: 'var(--accent)',
             opacity: fading ? 0 : 1,
             transform: fading ? 'translateY(-6px)' : 'translateY(0)',
             transition: 'opacity 0.32s, transform 0.32s',
-            display: 'inline-block', minWidth: 'clamp(130px,18vw,180px)',
+            display: 'inline-block',
           }}>{WORDS[wordIdx]}</span>
-          <span style={{ color:'var(--text-secondary)', fontSize:'clamp(1rem,2vw,1.2rem)', fontWeight:300 }}>מקצה לקצה</span>
+          <span> מקצה לקצה</span>
         </div>
 
         {/* 3 buttons */}
@@ -143,19 +140,39 @@ export default function Hero() {
 
       {/* scroll indicator */}
       <div style={{
-        position: 'absolute', bottom: 28, left: '50%',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-        color: 'var(--text-muted)', fontSize: '0.6rem', letterSpacing: '2px',
-        textTransform: 'uppercase', animation: 'floatY 2.5s ease-in-out infinite',
+        position: 'absolute', bottom: 32, left: '50%',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+        animation: 'floatY 2.5s ease-in-out infinite',
       }}>
-        <div style={{ width: 1, height: 32, background: 'linear-gradient(to bottom,var(--accent),transparent)' }} />
-        גלול
+        {/* animated mouse icon */}
+        <div style={{
+          width: 24, height: 38, borderRadius: 12,
+          border: '1.5px solid rgba(255,255,255,0.2)',
+          display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+          padding: '6px 0',
+          position: 'relative',
+        }}>
+          <div style={{
+            width: 3, height: 8, borderRadius: 2,
+            background: 'var(--accent)',
+            animation: 'scrollDot 1.8s ease-in-out infinite',
+          }} />
+        </div>
+        <span style={{
+          fontSize: '0.6rem', color: 'var(--text-muted)',
+          letterSpacing: '2px', textTransform: 'uppercase',
+        }}>גלול</span>
       </div>
 
       <style>{`
         @keyframes floatY {
           0%,100%{transform:translateX(-50%) translateY(0)}
-          50%{transform:translateX(-50%) translateY(-8px)}
+          50%{transform:translateX(-50%) translateY(-6px)}
+        }
+        @keyframes scrollDot {
+          0%{opacity:1;transform:translateY(0)}
+          80%{opacity:0;transform:translateY(8px)}
+          100%{opacity:0;transform:translateY(0)}
         }
       `}</style>
     </section>
