@@ -68,18 +68,25 @@ function Lightbox({ project, startIdx, onClose }: {
       <div onClick={e => e.stopPropagation()} style={{
         flex: 1, width: '100%',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '72px 80px 80px',
+        padding: '72px 80px 100px',
         position: 'relative',
+        overflow: 'hidden',
+        minHeight: 0,
       }}>
         <img
           key={idx}
           src={img.src}
           alt={img.label}
           style={{
-            maxWidth: '100%', maxHeight: '100%',
-            objectFit: 'contain', borderRadius: 12,
+            maxWidth: '100%',
+            maxHeight: '100%',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
+            borderRadius: 12,
             boxShadow: `0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px ${project.color}22`,
             animation: 'zoomIn 0.25s cubic-bezier(0.16,1,0.3,1)',
+            display: 'block',
           }}
           onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${img.src.slice(-6)}/1200/800` }}
         />
