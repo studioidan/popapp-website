@@ -55,7 +55,7 @@ export default function WhyMe() {
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 16,
-        }}>
+        }} className="why-grid">
           {cards.map((c, i) => (
             <div key={c.title}
               ref={el => { refs.current[i] = el }}
@@ -103,8 +103,9 @@ export default function WhyMe() {
       </div>
 
       <style>{`
-        @media (max-width: 640px) { #why .grid { grid-template-columns: repeat(2,1fr) !important; } }
-        @media (max-width: 400px) { #why .grid { grid-template-columns: 1fr !important; } }
+        .why-grid { grid-template-columns: repeat(3, 1fr); }
+        @media (max-width: 768px) { .why-grid { grid-template-columns: 1fr !important; } }
+        @media (min-width: 769px) and (max-width: 1024px) { .why-grid { grid-template-columns: repeat(2, 1fr) !important; } }
         @keyframes icon-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.2)} }
         @keyframes icon-spin  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
