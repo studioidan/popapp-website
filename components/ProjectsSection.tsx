@@ -295,18 +295,16 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
           <p style={{ color:'var(--text-secondary)', fontSize:'clamp(0.9rem,1.6vw,1rem)',
             lineHeight:1.85, marginBottom:24 }}>{project.desc}</p>
 
-          <div style={{ display:'flex', flexDirection:'column', gap:10, marginBottom:24 }}>
-            <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid var(--border)',
-              borderRight:`3px solid ${project.color}`, borderRadius:10, padding:'12px 16px' }}>
-              <div style={{ fontSize:'0.6rem', fontWeight:700, letterSpacing:'2px',
-                textTransform:'uppercase', color:project.color, marginBottom:5 }}>האתגר</div>
-              <p style={{ color:'var(--text-secondary)', fontSize:'0.83rem', lineHeight:1.7 }}>{project.challenge}</p>
+          <div style={{ display:'flex', flexDirection:'column', gap:20, marginBottom:24 }}>
+            <div>
+              <div style={{ fontSize:'0.62rem', fontWeight:700, letterSpacing:'2px',
+                textTransform:'uppercase', color:project.color, marginBottom:8 }}>האתגר</div>
+              <p style={{ color:'var(--text-secondary)', fontSize:'0.88rem', lineHeight:1.78 }}>{project.challenge}</p>
             </div>
-            <div style={{ background:`${project.color}0a`, border:`1px solid ${project.color}25`,
-              borderRadius:10, padding:'12px 16px' }}>
-              <div style={{ fontSize:'0.6rem', fontWeight:700, letterSpacing:'2px',
-                textTransform:'uppercase', color:project.color, marginBottom:5 }}>התוצאה</div>
-              <p style={{ color:'var(--text-primary)', fontSize:'0.85rem', lineHeight:1.7, fontWeight:500 }}>{project.result}</p>
+            <div>
+              <div style={{ fontSize:'0.62rem', fontWeight:700, letterSpacing:'2px',
+                textTransform:'uppercase', color:project.color, marginBottom:8 }}>התוצאה</div>
+              <p style={{ color:'var(--text-primary)', fontSize:'0.88rem', lineHeight:1.78, fontWeight:500 }}>{project.result}</p>
             </div>
           </div>
 
