@@ -2,228 +2,258 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { projects } from '@/lib/projects'
 
-/* ── DESKTOP FRAME ──────────────────────────────────── */
-function DesktopFrame({ src, color, label }: { src:string; color:string; label:string }) {
-  return (
-    <div style={{ width:'100%', display:'flex', flexDirection:'column' }}>
-      {/* outer glow ring */}
-      <div style={{
-        padding: 3,
-        borderRadius: 16,
-        background: `linear-gradient(135deg, ${color}55, transparent, ${color}22)`,
-        boxShadow: `0 0 0 1px ${color}18, 0 24px 64px ${color}22`,
-      }}>
-        <div style={{
-          background: '#07071a',
-          borderRadius: 14,
-          overflow: 'hidden',
-        }}>
-          {/* browser chrome */}
-          <div style={{
-            background: 'linear-gradient(to bottom, #0d0d24, #090918)',
-            padding: '8px 14px',
-            display: 'flex', alignItems: 'center', gap: 10,
-            borderBottom: `1px solid ${color}18`,
-          }}>
-            <div style={{ display:'flex', gap:5, flexShrink:0 }}>
-              {['#ff5f57','#ffbd2e','#28c840'].map(c=>(
-                <div key={c} style={{ width:8, height:8, borderRadius:'50%', background:c, opacity:0.9 }} />
-              ))}
-            </div>
-            <div style={{
-              flex:1, background:'rgba(255,255,255,0.05)',
-              borderRadius:5, padding:'3px 12px',
-              fontSize:'0.58rem', color:'rgba(255,255,255,0.22)',
-              fontFamily:'monospace', display:'flex', alignItems:'center', gap:6,
-            }}>
-              <div style={{ width:8, height:8, borderRadius:'50%',
-                background:`${color}66`, flexShrink:0,
-                boxShadow:`0 0 4px ${color}` }} />
-              popapp.co.il
-            </div>
-          </div>
-          {/* screenshot — fixed height to match mobile container */}
-          <div style={{ height:270, overflow:'hidden', position:'relative', background:'#04040e' }}>
-            <img src={src} alt={label}
-              style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
-              onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}/1200/675` }}
-            />
-            {/* subtle vignette */}
-            <div style={{ position:'absolute', inset:0, pointerEvents:'none',
-              background:'radial-gradient(ellipse at center, transparent 60%, rgba(4,4,14,0.4) 100%)' }} />
-          </div>
-        </div>
-      </div>
-      {/* stand */}
-      <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-        <div style={{ width:50, height:12, background:'#08080f' }} />
-        <div style={{ width:88, height:4, background:'#05050c',
-          borderRadius:'0 0 6px 6px', boxShadow:`0 4px 20px ${color}22` }} />
-      </div>
-      <p style={{ textAlign:'center', marginTop:10, fontSize:'0.65rem',
-        color:'var(--text-muted)', letterSpacing:'1px' }}>{label}</p>
-    </div>
-  )
-}
-
-/* ── MOBILE FRAME ───────────────────────────────────── */
-function MobileFrame({ src, color, label }: { src:string; color:string; label:string }) {
-  return (
-    <div style={{ width:'100%', maxWidth:200, margin:'0 auto', position:'relative' }}>
-      {/* outer glow ring */}
-      <div style={{
-        padding: 3,
-        borderRadius: 36,
-        background: `linear-gradient(160deg, ${color}66, transparent 60%, ${color}33)`,
-        boxShadow: `0 0 0 1px ${color}18, 0 28px 64px rgba(0,0,0,0.6), 0 0 40px ${color}18`,
-      }}>
-        <div style={{
-          background: '#08081a',
-          borderRadius: 33,
-          padding: '12px 6px',
-        }}>
-          {/* dynamic island style notch */}
-          <div style={{
-            width: 52, height: 8,
-            background: 'linear-gradient(to right, #1a1a30, #101020)',
-            borderRadius: 4, margin: '0 auto 10px',
-            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.05)`,
-          }} />
-          {/* screen — fixed height to match desktop container */}
-          <div style={{ borderRadius:22, overflow:'hidden',
-            height:270, position:'relative', background:'#000' }}>
-            <img src={src} alt={label}
-              style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
-              onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}m/390/844` }}
-            />
-            <div style={{ position:'absolute', inset:0, pointerEvents:'none',
-              background:'linear-gradient(135deg,rgba(255,255,255,0.04),transparent 50%)' }} />
-          </div>
-          {/* home bar */}
-          <div style={{ width:44, height:4,
-            background:`linear-gradient(to right, ${color}33, ${color}66, ${color}33)`,
-            borderRadius:2, margin:'10px auto 0',
-            boxShadow:`0 0 8px ${color}44` }} />
-        </div>
-      </div>
-      {/* physical buttons */}
-      <div style={{ position:'absolute', right:-5, top:82, width:4, height:28,
-        background:`linear-gradient(to bottom, ${color}22, ${color}44, ${color}22)`,
-        borderRadius:'0 3px 3px 0', boxShadow:`2px 0 6px ${color}22` }} />
-      {[68, 92].map((top, i) => (
-        <div key={i} style={{ position:'absolute', left:-5, top, width:4, height:20,
-          background:`linear-gradient(to bottom, ${color}22, ${color}44, ${color}22)`,
-          borderRadius:'3px 0 0 3px', boxShadow:`-2px 0 6px ${color}22` }} />
-      ))}
-      <p style={{ textAlign:'center', marginTop:12, fontSize:'0.63rem',
-        color:'var(--text-muted)', letterSpacing:'1px' }}>{label}</p>
-    </div>
-  )
-}
-
-/* ── GALLERY ────────────────────────────────────────── */
-function Gallery({ project }: { project: typeof projects[0] }) {
-  const [idx, setIdx] = useState(0)
-  const [animDir, setAnimDir] = useState<'left'|'right'|null>(null)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
-
-  const go = useCallback((dir: 'left'|'right') => {
-    setAnimDir(dir)
-    clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => {
-      setIdx(i => dir === 'right'
-        ? (i + 1) % project.images.length
-        : (i - 1 + project.images.length) % project.images.length)
-      setAnimDir(null)
-    }, 200)
-  }, [project.images.length])
-
-  useEffect(() => () => clearTimeout(timeoutRef.current), [])
-
+/* ── LIGHTBOX ────────────────────────────────────────── */
+function Lightbox({ project, startIdx, onClose }: {
+  project: typeof projects[0]; startIdx: number; onClose: () => void
+}) {
+  const [idx, setIdx] = useState(startIdx)
+  const count = project.images.length
   const img = project.images[idx]
 
+  const prev = useCallback(() => setIdx(i => (i - 1 + count) % count), [count])
+  const next = useCallback(() => setIdx(i => (i + 1) % count), [count])
+
+  useEffect(() => {
+    const fn = (e: KeyboardEvent) => {
+      if (e.key === 'Escape')      onClose()
+      if (e.key === 'ArrowLeft')   next()
+      if (e.key === 'ArrowRight')  prev()
+    }
+    window.addEventListener('keydown', fn)
+    document.body.style.overflow = 'hidden'
+    return () => { window.removeEventListener('keydown', fn); document.body.style.overflow = '' }
+  }, [onClose, prev, next])
+
   return (
-    <div>
-      {/* main frame — fixed height container so switching mobile↔desktop never jumps */}
-      <div style={{ position:'relative', marginBottom:20 }}>
-        <div style={{
-          height: 360,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          {/* animated frame */}
-          <div style={{
-            width: '100%',
-            opacity: animDir ? 0 : 1,
-            transform: animDir === 'right' ? 'translateX(-12px)' : animDir === 'left' ? 'translateX(12px)' : 'none',
-            transition: 'opacity 0.2s ease, transform 0.2s ease',
-          }}>
-            {img.type === 'mobile'
-              ? <MobileFrame src={img.src} color={project.color} label={img.label} />
-              : <DesktopFrame src={img.src} color={project.color} label={img.label} />
-            }
+    <div onClick={onClose} style={{
+      position: 'fixed', inset: 0, zIndex: 2000,
+      background: 'rgba(2,4,10,0.97)',
+      backdropFilter: 'blur(24px)',
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      animation: 'fadeIn 0.2s ease',
+    }}>
+      {/* top bar */}
+      <div onClick={e => e.stopPropagation()} style={{
+        position: 'absolute', top: 0, left: 0, right: 0,
+        padding: '18px 24px',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        background: 'linear-gradient(to bottom, rgba(2,4,10,0.9), transparent)',
+        zIndex: 10,
+      }}>
+        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+          <span style={{ fontSize:'1.4rem' }}>{project.emoji}</span>
+          <div>
+            <div style={{ fontWeight:700, fontSize:'0.95rem' }}>{project.name}</div>
+            <div style={{ color:project.color, fontSize:'0.72rem' }}>{img.label}</div>
           </div>
         </div>
-
-        {/* nav arrows — centered on the frame visual, not the whole div */}
-        {project.images.length > 1 && (
-          <div style={{
-            position:'absolute', inset:0,
-            display:'flex', alignItems:'center', justifyContent:'space-between',
-            pointerEvents:'none',
-            padding:'0 4px',
-            // stop above the label (approx 48px for stand+label)
-            paddingBottom: 48,
-          }}>
-            {[
-              { dir:'left' as const, label:'→' },
-              { dir:'right' as const, label:'←' },
-            ].map(({ dir, label }) => (
-              <button key={dir} onClick={() => go(dir)} style={{
-                pointerEvents:'auto',
-                width:36, height:36, borderRadius:'50%',
-                border:`1px solid ${project.color}55`,
-                background:'rgba(4,7,15,0.88)', backdropFilter:'blur(12px)',
-                color:project.color, fontSize:'0.95rem', cursor:'pointer',
-                display:'flex', alignItems:'center', justifyContent:'center',
-                transition:'all 0.2s', flexShrink:0,
-                boxShadow:`0 4px 16px rgba(0,0,0,0.5)`,
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background=project.color; e.currentTarget.style.color='#04070f' }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(4,7,15,0.88)'; e.currentTarget.style.color=project.color }}
-              >{label}</button>
-            ))}
-          </div>
-        )}
+        <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+          <span style={{ color:'var(--text-muted)', fontSize:'0.8rem' }}>
+            {idx + 1} / {count}
+          </span>
+          <button onClick={onClose} style={{
+            background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.12)',
+            color:'var(--text-primary)', width:36, height:36, borderRadius:'50%',
+            cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',
+            fontSize:'1rem', fontFamily:'inherit', transition:'all 0.2s',
+          }}
+            onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.18)'}
+            onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.08)'}
+          >✕</button>
+        </div>
       </div>
 
-      {/* thumbnails + dots */}
-      <div style={{ display:'flex', gap:8, justifyContent:'center',
-        flexWrap:'wrap', alignItems:'center', padding:'0 20px' }}>
-        {project.images.map((im, i) => (
-          <button key={i} onClick={() => { setIdx(i); setAnimDir(null) }} style={{
-            width:48, height:34, borderRadius:8, overflow:'hidden',
-            border: i===idx ? `2px solid ${project.color}` : '2px solid rgba(255,255,255,0.07)',
-            cursor:'pointer', padding:0, transition:'all 0.2s', flexShrink:0, position:'relative',
-            boxShadow: i===idx ? `0 0 12px ${project.color}66` : 'none',
+      {/* main image */}
+      <div onClick={e => e.stopPropagation()} style={{
+        flex: 1, width: '100%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '72px 80px 80px',
+        position: 'relative',
+      }}>
+        <img
+          key={idx}
+          src={img.src}
+          alt={img.label}
+          style={{
+            maxWidth: '100%', maxHeight: '100%',
+            objectFit: 'contain', borderRadius: 12,
+            boxShadow: `0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px ${project.color}22`,
+            animation: 'zoomIn 0.25s cubic-bezier(0.16,1,0.3,1)',
+          }}
+          onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${img.src.slice(-6)}/1200/800` }}
+        />
+
+        {/* device type badge */}
+        <div style={{
+          position:'absolute', bottom:96, left:'50%', transform:'translateX(-50%)',
+          background:'rgba(4,7,15,0.8)', backdropFilter:'blur(12px)',
+          border:`1px solid ${project.color}33`, borderRadius:20,
+          padding:'4px 14px', fontSize:'0.7rem', color:'var(--text-muted)',
+          display:'flex', alignItems:'center', gap:6,
+        }}>
+          <span>{img.type === 'mobile' ? '📱' : '🖥️'}</span>
+          {img.type === 'mobile' ? 'Mobile' : 'Desktop'}
+        </div>
+      </div>
+
+      {/* bottom: thumbs + arrows */}
+      <div onClick={e => e.stopPropagation()} style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        padding: '16px 24px 24px',
+        background: 'linear-gradient(to top, rgba(2,4,10,0.95), transparent)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24,
+      }}>
+        {/* prev */}
+        <button onClick={prev} style={navBtn(project.color)}>→</button>
+
+        {/* thumbnails */}
+        <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+          {project.images.map((im, i) => (
+            <button key={i} onClick={() => setIdx(i)} style={{
+              width:52, height:38, borderRadius:8, overflow:'hidden',
+              border: i===idx
+                ? `2px solid ${project.color}`
+                : '2px solid rgba(255,255,255,0.08)',
+              cursor:'pointer', padding:0, transition:'all 0.2s', flexShrink:0,
+              boxShadow: i===idx ? `0 0 14px ${project.color}66` : 'none',
+            }}>
+              <img src={im.src} alt={im.label} style={{
+                width:'100%', height:'100%', objectFit:'cover',
+                filter: i===idx ? 'none' : 'brightness(0.3)',
+                transition:'filter 0.2s',
+              }}
+                onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${i}/80/60` }}
+              />
+            </button>
+          ))}
+        </div>
+
+        {/* next */}
+        <button onClick={next} style={navBtn(project.color)}>←</button>
+      </div>
+
+      <style>{`
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes zoomIn { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+      `}</style>
+    </div>
+  )
+}
+
+function navBtn(color: string): React.CSSProperties {
+  return {
+    width:44, height:44, borderRadius:'50%',
+    background:'rgba(4,7,15,0.85)', backdropFilter:'blur(12px)',
+    border:`1px solid ${color}55`, color,
+    fontSize:'1.1rem', cursor:'pointer', flexShrink:0,
+    display:'flex', alignItems:'center', justifyContent:'center',
+    transition:'all 0.2s',
+  }
+}
+
+/* ── THUMBNAIL STRIP (replaces old Gallery) ─────────── */
+function ProjectGallery({ project }: { project: typeof projects[0] }) {
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
+
+  return (
+    <>
+      {/* grid of thumbnails with device frames */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+        gap: 12,
+      }}>
+        {project.images.map((img, i) => (
+          <button key={i} onClick={() => setLightboxIdx(i)} style={{
+            padding: 0, border:'none', background:'none',
+            cursor:'pointer', borderRadius:12, overflow:'visible',
+            position:'relative',
           }}>
-            <img src={im.src} alt={im.label} style={{
-              width:'100%', height:'100%', objectFit:'cover',
-              filter: i===idx ? 'none' : 'brightness(0.3)',
-              transition:'filter 0.2s',
-            }}
-              onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${i}/80/60` }}
-            />
-            {/* device icon */}
-            <div style={{
-              position:'absolute', bottom:1, right:2,
-              fontSize:'0.45rem', lineHeight:1,
-              color: i===idx ? project.color : 'rgba(255,255,255,0.3)',
-            }}>{im.type==='mobile'?'📱':'🖥'}</div>
+            {img.type === 'mobile'
+              ? <MiniMobile src={img.src} color={project.color} label={img.label} />
+              : <MiniDesktop src={img.src} color={project.color} label={img.label} />
+            }
           </button>
         ))}
       </div>
+
+      {lightboxIdx !== null && (
+        <Lightbox
+          project={project}
+          startIdx={lightboxIdx}
+          onClose={() => setLightboxIdx(null)}
+        />
+      )}
+    </>
+  )
+}
+
+/* ── MINI DESKTOP THUMB ─────────────────────────────── */
+function MiniDesktop({ src, color, label }: { src:string; color:string; label:string }) {
+  return (
+    <div>
+      <div style={{
+        borderRadius:'8px 8px 0 0',
+        border:`1px solid ${color}44`,
+        background:'#0a0a18', overflow:'hidden',
+        boxShadow:`0 0 0 1px ${color}18, 0 8px 24px rgba(0,0,0,0.5)`,
+        transition:'all 0.25s',
+      }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor=`${color}99`; e.currentTarget.style.boxShadow=`0 0 0 1px ${color}44, 0 12px 32px ${color}22` }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor=`${color}44`; e.currentTarget.style.boxShadow=`0 0 0 1px ${color}18, 0 8px 24px rgba(0,0,0,0.5)` }}
+      >
+        {/* tiny browser bar */}
+        <div style={{ background:'#07071a', padding:'5px 8px',
+          display:'flex', alignItems:'center', gap:5,
+          borderBottom:`1px solid ${color}18` }}>
+          <div style={{ display:'flex', gap:3 }}>
+            {['#ff5f57','#ffbd2e','#28c840'].map(c=>(
+              <div key={c} style={{ width:5,height:5,borderRadius:'50%',background:c,opacity:0.8 }} />
+            ))}
+          </div>
+          <div style={{ flex:1, background:'rgba(255,255,255,0.04)',
+            borderRadius:3, height:6 }} />
+        </div>
+        {/* image */}
+        <div style={{ height:80, overflow:'hidden' }}>
+          <img src={src} alt={label} style={{ width:'100%',height:'100%',objectFit:'cover',display:'block' }}
+            onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}/400/225`}} />
+        </div>
+      </div>
+      {/* stand */}
+      <div style={{ display:'flex',flexDirection:'column',alignItems:'center' }}>
+        <div style={{ width:24,height:6,background:'#08080f' }} />
+        <div style={{ width:44,height:3,background:'#06060e',borderRadius:'0 0 4px 4px' }} />
+      </div>
+      <p style={{ textAlign:'center',marginTop:5,fontSize:'0.6rem',
+        color:'var(--text-muted)',letterSpacing:'0.5px' }}>{label}</p>
+    </div>
+  )
+}
+
+/* ── MINI MOBILE THUMB ──────────────────────────────── */
+function MiniMobile({ src, color, label }: { src:string; color:string; label:string }) {
+  return (
+    <div style={{ maxWidth:100, margin:'0 auto' }}>
+      <div style={{
+        borderRadius:16, border:`2px solid ${color}44`,
+        background:'#08081a', padding:'5px 3px',
+        boxShadow:`0 0 0 1px ${color}18, 0 8px 24px rgba(0,0,0,0.5)`,
+        transition:'all 0.25s',
+      }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor=`${color}99`; e.currentTarget.style.boxShadow=`0 0 0 1px ${color}44, 0 12px 32px ${color}22` }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor=`${color}44`; e.currentTarget.style.boxShadow=`0 0 0 1px ${color}18, 0 8px 24px rgba(0,0,0,0.5)` }}
+      >
+        <div style={{ width:20,height:3,background:'#1a1a30',borderRadius:2,margin:'0 auto 4px' }} />
+        <div style={{ borderRadius:10, overflow:'hidden', height:100 }}>
+          <img src={src} alt={label} style={{ width:'100%',height:'100%',objectFit:'cover',display:'block' }}
+            onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}m/200/430`}} />
+        </div>
+        <div style={{ width:16,height:2,background:`${color}44`,borderRadius:1,margin:'4px auto 0' }} />
+      </div>
+      <p style={{ textAlign:'center',marginTop:6,fontSize:'0.6rem',
+        color:'var(--text-muted)',letterSpacing:'0.5px' }}>{label}</p>
     </div>
   )
 }
@@ -250,9 +280,8 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
       borderBottom:'1px solid var(--border)',
       marginBottom:'clamp(72px,9vw,120px)',
     }}>
-      {/* header row */}
-      <div style={{ display:'flex', alignItems:'center', gap:18, marginBottom:32, flexWrap:'wrap' }}>
-        {/* logo box */}
+      {/* header */}
+      <div style={{ display:'flex', alignItems:'center', gap:16, marginBottom:28, flexWrap:'wrap' }}>
         <div style={{
           width:52, height:52, borderRadius:14, flexShrink:0,
           background:`linear-gradient(135deg,${project.gradientFrom}33,${project.gradientTo}22)`,
@@ -262,7 +291,7 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
           boxShadow:`0 8px 24px ${project.color}22, inset 0 1px 0 rgba(255,255,255,0.08)`,
         }}>{project.emoji}</div>
 
-        <div style={{ flex:1 }}>
+        <div style={{ flex:1, minWidth:0 }}>
           <div style={{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
             <h3 style={{ fontSize:'clamp(1.4rem,3vw,2rem)', fontWeight:900,
               letterSpacing:'-0.8px', lineHeight:1 }}>{project.name}</h3>
@@ -287,19 +316,25 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
             fontWeight:600, fontSize:'0.82rem', fontFamily:'inherit',
             transition:'all 0.25s', whiteSpace:'nowrap',
           }}
-            onMouseEnter={e => { e.currentTarget.style.background=`${project.color}18`; e.currentTarget.style.transform='translateY(-2px)' }}
-            onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.04)'; e.currentTarget.style.transform='' }}
+            onMouseEnter={e=>{e.currentTarget.style.background=`${project.color}18`;e.currentTarget.style.transform='translateY(-2px)'}}
+            onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.04)';e.currentTarget.style.transform=''}}
           >🔗 בקר באתר</a>
         )}
       </div>
 
-      {/* 2 col: gallery + info */}
+      {/* 2 col */}
       <div style={{ display:'grid',
-        gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,340px),1fr))',
+        gridTemplateColumns:'repeat(auto-fit, minmax(min(100%,340px),1fr))',
         gap:'clamp(32px,5vw,64px)', alignItems:'start' }}>
 
-        {/* gallery */}
-        <Gallery project={project} />
+        {/* thumbnail gallery */}
+        <div>
+          <p style={{ fontSize:'0.68rem', color:'var(--text-muted)', letterSpacing:'1px',
+            marginBottom:14, textTransform:'uppercase', fontWeight:600 }}>
+            לחץ על תמונה לתצוגה מלאה
+          </p>
+          <ProjectGallery project={project} />
+        </div>
 
         {/* info */}
         <div>
@@ -320,7 +355,7 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
           </div>
 
           <div style={{ display:'flex', gap:8, marginBottom:20, flexWrap:'wrap' }}>
-            {project.stats.map(s => (
+            {project.stats.map(s=>(
               <div key={s.label} style={{ textAlign:'center',
                 background:'rgba(255,255,255,0.03)', border:'1px solid var(--border)',
                 borderRadius:10, padding:'10px 14px', minWidth:70 }}>
@@ -331,7 +366,7 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
           </div>
 
           <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
-            {project.tech.map(t => (
+            {project.tech.map(t=>(
               <span key={t} style={{
                 background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)',
                 color:'var(--text-secondary)', fontSize:'0.7rem', padding:'4px 10px', borderRadius:20,
@@ -353,13 +388,15 @@ export default function ProjectsSection() {
       borderTop:'1px solid var(--border)',
     }}>
       <div style={{ maxWidth:1100, margin:'0 auto' }}>
-        <div style={{ display:'flex', alignItems:'center', gap:10, fontSize:'0.68rem', fontWeight:700,
-          letterSpacing:'3px', textTransform:'uppercase', color:'var(--accent)', marginBottom:16 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:10, fontSize:'0.68rem',
+          fontWeight:700, letterSpacing:'3px', textTransform:'uppercase',
+          color:'var(--accent)', marginBottom:16 }}>
           <span style={{ width:24, height:1.5, background:'var(--accent)', display:'block' }} />
           פרויקטים נבחרים
         </div>
         <h2 style={{ fontSize:'clamp(1.6rem,4vw,3rem)', fontWeight:900,
-          letterSpacing:'-1.5px', lineHeight:1.0, marginBottom:'clamp(56px,8vw,96px)' }}>
+          letterSpacing:'-1.5px', lineHeight:1.0,
+          marginBottom:'clamp(56px,8vw,96px)' }}>
           מוצרים שאנשים{' '}
           <span style={{ background:'linear-gradient(135deg,#00e5ff,#0077ff)',
             WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
@@ -367,7 +404,7 @@ export default function ProjectsSection() {
           </span>
         </h2>
 
-        {projects.map((p, i) => (
+        {projects.map((p,i) => (
           <ProjectRow key={p.id} project={p} index={i} />
         ))}
       </div>
