@@ -1,8 +1,8 @@
-import dynamic from 'next/dynamic'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import ClientsStrip from '@/components/ClientsStrip'
+import About from '@/components/About'
 import ProjectsSection from '@/components/ProjectsSection'
+import ClientsStrip from '@/components/ClientsStrip'
 import WhyMe from '@/components/WhyMe'
 import Process from '@/components/Process'
 import Contact from '@/components/Contact'
@@ -15,8 +15,9 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <ClientsStrip />
+        <About />
         <ProjectsSection />
+        <ClientsStrip />
         <WhyMe />
         <Process />
         <Contact />
