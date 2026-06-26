@@ -1,38 +1,50 @@
 'use client'
 import { useRef, useEffect, useState, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import { projects } from '@/lib/projects'
 
-/* ── LIGHTBOX ────────────────────────────────────────── */
+/* ── LIGHTBOX (portal — renders at body level) ───────── */
 function Lightbox({ project, startIdx, onClose }: {
   project: typeof projects[0]; startIdx: number; onClose: () => void
 }) {
   const [idx, setIdx] = useState(startIdx)
   const count = project.images.length
   const img = project.images[idx]
+  const [mounted, setMounted] = useState(false)
 
   const prev = useCallback(() => setIdx(i => (i - 1 + count) % count), [count])
   const next = useCallback(() => setIdx(i => (i + 1) % count), [count])
 
   useEffect(() => {
+    setMounted(true)
     const fn = (e: KeyboardEvent) => {
-      if (e.key === 'Escape')      onClose()
-      if (e.key === 'ArrowLeft')   next()
-      if (e.key === 'ArrowRight')  prev()
+      if (e.key === 'Escape')     onClose()
+      if (e.key === 'ArrowLeft')  next()
+      if (e.key === 'ArrowRight') prev()
     }
     window.addEventListener('keydown', fn)
     document.body.style.overflow = 'hidden'
-    return () => { window.removeEventListener('keydown', fn); document.body.style.overflow = '' }
+    return () => {
+      window.removeEventListener('keydown', fn)
+      document.body.style.overflow = ''
+    }
   }, [onClose, prev, next])
 
-  return (
-    <div onClick={onClose} role="button" tabIndex={-1} style={{
-      position: 'fixed', inset: 0, zIndex: 2000,
-      background: 'rgba(2,4,10,0.97)',
-      backdropFilter: 'blur(24px)',
-      display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      animation: 'fadeIn 0.2s ease',
-    }}>
+  if (!mounted) return null
+
+  const content = (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: 'rgba(2,4,10,0.97)',
+        backdropFilter: 'blur(24px)',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        animation: 'fadeIn 0.2s ease',
+        cursor: 'zoom-out',
+      }}
+    >
       {/* top bar */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0,
@@ -151,6 +163,8 @@ function Lightbox({ project, startIdx, onClose }: {
       `}</style>
     </div>
   )
+
+  return createPortal(content, document.body)
 }
 
 function navBtn(color: string): React.CSSProperties {
