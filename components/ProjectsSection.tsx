@@ -25,7 +25,7 @@ function Lightbox({ project, startIdx, onClose }: {
   }, [onClose, prev, next])
 
   return (
-    <div onClick={onClose} style={{
+    <div onClick={onClose} role="button" tabIndex={-1} style={{
       position: 'fixed', inset: 0, zIndex: 2000,
       background: 'rgba(2,4,10,0.97)',
       backdropFilter: 'blur(24px)',
@@ -34,21 +34,22 @@ function Lightbox({ project, startIdx, onClose }: {
       animation: 'fadeIn 0.2s ease',
     }}>
       {/* top bar */}
-      <div onClick={e => e.stopPropagation()} style={{
+      <div style={{
         position: 'absolute', top: 0, left: 0, right: 0,
         padding: '18px 24px',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         background: 'linear-gradient(to bottom, rgba(2,4,10,0.9), transparent)',
         zIndex: 10,
+        pointerEvents: 'none',
       }}>
-        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:12, pointerEvents:'auto' }}>
           <span style={{ fontSize:'1.4rem' }}>{project.emoji}</span>
           <div>
             <div style={{ fontWeight:700, fontSize:'0.95rem' }}>{project.name}</div>
             <div style={{ color:project.color, fontSize:'0.72rem' }}>{img.label}</div>
           </div>
         </div>
-        <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:16, pointerEvents:'auto' }}>
           <span style={{ color:'var(--text-muted)', fontSize:'0.8rem' }}>
             {idx + 1} / {count}
           </span>
@@ -65,7 +66,7 @@ function Lightbox({ project, startIdx, onClose }: {
       </div>
 
       {/* main image */}
-      <div onClick={e => e.stopPropagation()} style={{
+      <div style={{
         flex: 1, width: '100%',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '72px 80px 100px',
@@ -77,6 +78,7 @@ function Lightbox({ project, startIdx, onClose }: {
           key={idx}
           src={img.src}
           alt={img.label}
+          onClick={e => e.stopPropagation()}
           style={{
             maxWidth: '100%',
             maxHeight: '100%',
@@ -87,6 +89,7 @@ function Lightbox({ project, startIdx, onClose }: {
             boxShadow: `0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px ${project.color}22`,
             animation: 'zoomIn 0.25s cubic-bezier(0.16,1,0.3,1)',
             display: 'block',
+            cursor: 'default',
           }}
           onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${img.src.slice(-6)}/1200/800` }}
         />
@@ -98,6 +101,7 @@ function Lightbox({ project, startIdx, onClose }: {
           border:`1px solid ${project.color}33`, borderRadius:20,
           padding:'4px 14px', fontSize:'0.7rem', color:'var(--text-muted)',
           display:'flex', alignItems:'center', gap:6,
+          pointerEvents: 'none',
         }}>
           <span>{img.type === 'mobile' ? '📱' : '🖥️'}</span>
           {img.type === 'mobile' ? 'Mobile' : 'Desktop'}
@@ -105,19 +109,20 @@ function Lightbox({ project, startIdx, onClose }: {
       </div>
 
       {/* bottom: thumbs + arrows */}
-      <div onClick={e => e.stopPropagation()} style={{
+      <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0,
         padding: '16px 24px 24px',
         background: 'linear-gradient(to top, rgba(2,4,10,0.95), transparent)',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24,
+        pointerEvents: 'none',
       }}>
         {/* prev */}
-        <button onClick={prev} style={navBtn(project.color)}>→</button>
+        <button onClick={e => { e.stopPropagation(); prev() }} style={{...navBtn(project.color), pointerEvents:'auto'}}>→</button>
 
         {/* thumbnails */}
-        <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+        <div style={{ display:'flex', gap:8, alignItems:'center', pointerEvents:'auto' }}>
           {project.images.map((im, i) => (
-            <button key={i} onClick={() => setIdx(i)} style={{
+            <button key={i} onClick={e => { e.stopPropagation(); setIdx(i) }} style={{
               width:52, height:38, borderRadius:8, overflow:'hidden',
               border: i===idx
                 ? `2px solid ${project.color}`
@@ -137,7 +142,7 @@ function Lightbox({ project, startIdx, onClose }: {
         </div>
 
         {/* next */}
-        <button onClick={next} style={navBtn(project.color)}>←</button>
+        <button onClick={e => { e.stopPropagation(); next() }} style={{...navBtn(project.color), pointerEvents:'auto'}}>←</button>
       </div>
 
       <style>{`
