@@ -22,7 +22,7 @@ export default function WhyMe() {
           obs.unobserve(el)
         }
       })
-    }, { threshold: 0.1 })
+    }, { threshold: 0, rootMargin: '0px 0px -50px 0px' })
     refs.current.forEach(el => el && obs.observe(el))
     return () => obs.disconnect()
   }, [])
@@ -60,7 +60,7 @@ export default function WhyMe() {
                 border:'1px solid rgba(255,255,255,0.07)', borderRadius:18,
                 padding:'clamp(24px,3vw,32px)',
                 display:'flex', flexDirection:'column', gap:12,
-                opacity:0, transform:'translateY(28px) scale(0.97)',
+                opacity:0, transform:'translateY(16px) scale(0.98)',
                 transition:`border-color 0.3s, box-shadow 0.3s, transform 0.3s,
                             opacity 0.6s ease ${i*0.08}s, transform 0.6s ease ${i*0.08}s`,
               }}

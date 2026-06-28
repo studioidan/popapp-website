@@ -21,7 +21,7 @@ export default function Process() {
           obs.unobserve(el)
         }
       })
-    }, { threshold: 0.1 })
+    }, { threshold: 0, rootMargin: "0px 0px -40px 0px" })
     refs.current.forEach(el => el && obs.observe(el))
     return () => obs.disconnect()
   }, [])
