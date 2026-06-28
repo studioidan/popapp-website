@@ -3,12 +3,12 @@ import { useEffect, useRef } from 'react'
 import { Zap, Brain, Stethoscope, Smile, DollarSign, Handshake } from 'lucide-react'
 
 const cards = [
-  { Icon: Zap,         title:'מהירות ללא פשרות', text:'תוך ימים, לא חודשים. בלי שרשראות אישור. קוד שרץ תוך שעות.', accent:'#00e5ff', anim:'pulse' },
-  { Icon: Brain,       title:'Senior בכל שכבה',  text:'Frontend, Backend, Mobile, AI, Cloud, DevOps. לא מעביר לאחר.', accent:'#7c3aed', anim:'none' },
-  { Icon: Stethoscope, title:'Medical Startups', text:'ניסיון עם רגולציה רפואית, CGM APIs, HL7/FHIR. מוצרים שצוות רפואי סומך עליהם.', accent:'#10b981', anim:'none' },
-  { Icon: Smile,       title:'כיף לעבוד איתי',  text:'ישיר, שקוף, נגיש. תמיד בתמונה. לקוחות חוזרים כי הדרך לא פחות חשובה מהיעד.', accent:'#f59e0b', anim:'spin-slow' },
-  { Icon: DollarSign,  title:'תקציב בשליטה',    text:'אתה משלם על קוד שרץ, לא על PM, QA וארכיטקטים שמעבירים הודעות.', accent:'#ff6b35', anim:'none' },
-  { Icon: Handshake,   title:'שותף, לא קבלן',   text:'מבין את הביזנס, שואל שאלות קשות, ומגיע עם הצעות משלי.', accent:'#00e5ff', anim:'none' },
+  { Icon: Zap,         title:'מהיר להבין',       text:'פגישה אחת מספיקה. אני מבין את הצורך ומתחיל לבנות.', accent:'#00e5ff', anim:'pulse' },
+  { Icon: Brain,       title:'Full-Stack אמיתי',  text:'Frontend, Backend, Mobile, AI, Cloud, DevOps. בכל שכבה, בכל טכנולוגיה.', accent:'#7c3aed', anim:'none' },
+  { Icon: Stethoscope, title:'Medical Startups',  text:'ניסיון עם רגולציה רפואית, CGM APIs, HL7/FHIR. מוצרים שצוות רפואי סומך עליהם.', accent:'#10b981', anim:'none' },
+  { Icon: Smile,       title:'כיף לעבוד איתי',   text:'ישיר, שקוף, נגיש. תמיד בתמונה. לקוחות חוזרים כי הדרך לא פחות חשובה מהיעד.', accent:'#f59e0b', anim:'spin-slow' },
+  { Icon: DollarSign,  title:'תקציב בשליטה',     text:'אתה משלם על קוד שרץ, לא על PM, QA וארכיטקטים שמעבירים הודעות.', accent:'#ff6b35', anim:'none' },
+  { Icon: Handshake,   title:'שותף, לא קבלן',    text:'מבין את הביזנס, שואל שאלות קשות, ומגיע עם הצעות משלי.', accent:'#00e5ff', anim:'none' },
 ]
 
 export default function WhyMe() {
@@ -51,11 +51,7 @@ export default function WhyMe() {
           </span>
         </h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 16,
-        }} className="why-grid">
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:16 }} className="why-grid">
           {cards.map((c, i) => (
             <div key={c.title}
               ref={el => { refs.current[i] = el }}
