@@ -55,25 +55,25 @@ export default function About() {
           מהנדס תוכנה עצמאי.<br />
           <span style={{ background:'linear-gradient(135deg,#00e5ff,#0077ff)',
             WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
-            נגעתי כמעט בכל תחום.
+            כתיבת קוד היא התשוקה שלי.
           </span>
         </h2>
 
         <p ref={r(3)} data-i="3" style={{ fontSize:'clamp(1rem,1.8vw,1.12rem)', fontWeight:300,
           color:'var(--text-secondary)', lineHeight:1.9, marginBottom:16, maxWidth:680, ...anim(0.14) }}>
-          15 שנה. עשרות פרויקטים. בניתי אפליקציות שהגיעו למאות אלפי משתמשים, מערכות IoT שמצילות חיים, ופלטפורמות AI רפואיות שנבדקות בניסויים קליניים.
+          כבר 15 שנה שאני בונה מערכות תוכנה מורכבות מקצה לקצה. התנסיתי בלא מעט תחומים — רשתות חברתיות, אפליקציות פיננסיות, כלים לשימוש פנים-ארגוני ועוד.
         </p>
 
         <p ref={r(4)} data-i="4" style={{ fontSize:'clamp(1rem,1.8vw,1.12rem)', fontWeight:300,
           color:'var(--text-secondary)', lineHeight:1.9, marginBottom:16, maxWidth:680, ...anim(0.18) }}>
-          יש לי אובססיה ללמוד דברים חדשים. אני אוהב לצאת מאזור הנוחות שלי, להתמודד עם תחומים שלא מכרתי, ולצאת מהם עם פתרון שעובד. זה מה שגרם לי לנגוע בכל כך הרבה עולמות שונים.
+          בשנים האחרונות אני מתמקד בעיקר בעזרה לסטארטאפים בתחום ה-Medical וה-AI. אני אוהב לצאת מאזור הנוחות שלי, להתמודד עם אתגרים חדשים, ולספק פתרון שעובד.
         </p>
 
         <p ref={r(5)} data-i="5" style={{ fontSize:'clamp(1rem,1.8vw,1.12rem)', fontWeight:300,
           color:'var(--text-secondary)', lineHeight:1.9, marginBottom:56, maxWidth:680, ...anim(0.22) }}>
-          אני לא עובד עבורך, אני עובד{' '}
-          <strong style={{ color:'var(--text-primary)', fontWeight:600 }}>איתך</strong>.
-          {' '}פגישה אחת מספיקה כדי שאבין בדיוק מה צריך, ומשם קוד שרץ תוך ימים, לא חודשים. בלי ישיבות מיותרות, בלי תקציב שנשרף.
+          אני עובד{' '}
+          <strong style={{ color:'var(--text-primary)', fontWeight:600 }}>מהר מאוד</strong>.
+          {' '}פגישה אחת מספיקה כדי שאבין את הצורך שלך, ומשם אני רץ לאפיון וכתיבת מוצר שעובד — בזמן קצר, בלי ישיבות מיותרות, בלי תקציב שנשרף, ותמיד זמין בלי בירוקרטיה מייגעת.
         </p>
 
         {/* stats */}
