@@ -197,6 +197,14 @@ export default function Hero() {
         `}</style>
       </div>
 
+      {/* version badge - remove after confirming deploys work */}
+      <div style={{
+        position:'fixed', bottom:12, left:12, zIndex:9999,
+        background:'rgba(0,229,255,0.15)', border:'1px solid var(--accent)',
+        borderRadius:8, padding:'4px 12px',
+        fontSize:'0.7rem', color:'var(--accent)', fontFamily:'monospace',
+      }}>v1 · {new Date().toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'})}</div>
+
       {/* scroll indicator */}
       <div style={{
         position: 'absolute', bottom: -24, left: '50%',
