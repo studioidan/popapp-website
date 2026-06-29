@@ -1,4 +1,5 @@
 'use client'
+import { MessageCircle } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const WORDS = ['אפליקציות', 'AI Products', 'Medical Tech', 'IoT Systems', 'Startups']
@@ -143,7 +144,8 @@ export default function Hero() {
           }}
             onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 16px 48px rgba(0,229,255,0.4)' }}
             onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow='0 0 0 1px rgba(0,229,255,0.3)' }}
-          >בואו נדבר →</button>
+          style={{ display:'inline-flex', alignItems:'center', gap:8 }}
+          >בואו נדבר <MessageCircle size={18} strokeWidth={2} /></button>
         </div>
 
         {/* clients strip */}
