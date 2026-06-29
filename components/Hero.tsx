@@ -66,9 +66,7 @@ export default function Hero() {
           fontSize: '0.68rem', fontWeight: 700, letterSpacing: '3px',
           textTransform: 'uppercase', color: 'var(--accent)',
         }}>
-          <span style={{ width: 28, height: 1.5, background: 'var(--accent)', display: 'block' }} />
           15 שנות ניסיון · full‑stack · ai · medical
-          <span style={{ width: 28, height: 1.5, background: 'var(--accent)', display: 'block' }} />
         </div>
 
         {/* headline */}
