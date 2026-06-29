@@ -71,8 +71,8 @@ export default function ClientsStrip() {
                   maxWidth: 160,
                   objectFit: 'contain',
                   display: 'block',
-                  /* grayscale + invert to white on dark bg */
-                  filter: 'grayscale(100%) brightness(0) invert(1)',
+                  /* natural colors, no filter */
+                  filter: 'none',
                 }}
               />
             </div>
