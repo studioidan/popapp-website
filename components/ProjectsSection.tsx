@@ -310,16 +310,17 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
       borderBottom:'1px solid var(--border)',
       marginBottom:'clamp(72px,9vw,120px)',
     }}>
-      {/* header */}
-      <div style={{ marginBottom:28 }}>
-        {/* top row: emoji + name + tag */}
-        <div style={{ display:'flex', alignItems:'center', gap:14, marginBottom:8, flexWrap:'wrap' }}>
+
+      {/* ── CENTERED HEADER ── */}
+      <div style={{ textAlign:'center', marginBottom:'clamp(24px,4vw,40px)' }}>
+        {/* logo + name */}
+        <div style={{ display:'inline-flex', alignItems:'center', gap:14, marginBottom:12 }}>
           <div style={{
-            width:48, height:48, borderRadius:13, flexShrink:0,
+            width:52, height:52, borderRadius:14, flexShrink:0,
             background:`linear-gradient(135deg,${project.gradientFrom}33,${project.gradientTo}22)`,
             border:`1.5px solid ${project.color}44`,
             display:'flex', alignItems:'center', justifyContent:'center',
-            fontSize:'1.5rem', overflow:'hidden',
+            fontSize:'1.6rem', overflow:'hidden',
             boxShadow:`0 6px 20px ${project.color}22`,
           }}>
             {project.logoSrc
@@ -327,27 +328,24 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
               : <span>{project.emoji}</span>
             }
           </div>
-
-          <h3 style={{ fontSize:'clamp(1.3rem,3vw,2rem)', fontWeight:900,
-            letterSpacing:'-0.8px', lineHeight:1 }}>{project.name}</h3>
+          <h3 style={{ fontSize:'clamp(1.4rem,3vw,2.2rem)', fontWeight:900,
+            letterSpacing:'-1px', lineHeight:1 }}>{project.name}</h3>
         </div>
 
-        {/* tagline */}
-        <p style={{ color:project.color, fontSize:'0.82rem', fontWeight:600, marginBottom:12 }}>
-          {project.tagline}
-        </p>
+        {/* desc */}
+        <p style={{ color:'var(--text-secondary)', fontSize:'clamp(0.9rem,1.6vw,1rem)',
+          lineHeight:1.85, maxWidth:680, margin:'0 auto 20px' }}>{project.desc}</p>
 
-        {/* link — only on desktop */}
+        {/* link */}
         {project.link && (
           <a href={project.link} target="_blank" rel="noopener noreferrer"
-            className="link-desktop"
             style={{
-              display:'none', alignItems:'center', gap:7,
+              display:'inline-flex', alignItems:'center', gap:7,
               background:'rgba(255,255,255,0.04)', backdropFilter:'blur(12px)',
               border:`1px solid ${project.color}44`, color:project.color,
               textDecoration:'none', padding:'9px 20px', borderRadius:10,
               fontWeight:600, fontSize:'0.82rem', fontFamily:'inherit',
-              transition:'all 0.25s', whiteSpace:'nowrap',
+              transition:'all 0.25s',
             }}
             onMouseEnter={e=>{e.currentTarget.style.background=`${project.color}18`;e.currentTarget.style.transform='translateY(-2px)'}}
             onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.04)';e.currentTarget.style.transform=''}}
@@ -355,32 +353,22 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
         )}
       </div>
 
-      <style>{`
-        @media (min-width: 600px) {
-          .tag-desktop { display: inline-block !important; }
-          .link-desktop { display: inline-flex !important; }
-        }
-      `}</style>
-
-      {/* 2 col */}
+      {/* ── 2 COLUMNS: images right | text left ── */}
       <div style={{ display:'grid',
-        gridTemplateColumns:'repeat(auto-fit, minmax(min(100%,340px),1fr))',
+        gridTemplateColumns:'repeat(auto-fit, minmax(min(100%,320px),1fr))',
         gap:'clamp(32px,5vw,64px)', alignItems:'start' }}>
 
-        {/* thumbnail gallery */}
-        <div>
-          <p style={{ fontSize:'0.68rem', color:'var(--text-muted)', letterSpacing:'1px',
-            marginBottom:14, textTransform:'uppercase', fontWeight:600 }}>
+        {/* RIGHT — gallery */}
+        <div style={{ order: 1 }}>
+          <p style={{ fontSize:'0.65rem', color:'var(--text-muted)', letterSpacing:'1px',
+            marginBottom:12, textTransform:'uppercase', fontWeight:600, textAlign:'center' }}>
             לחץ על תמונה לתצוגה מלאה
           </p>
           <ProjectGallery project={project} />
         </div>
 
-        {/* info */}
-        <div>
-          <p style={{ color:'var(--text-secondary)', fontSize:'clamp(0.9rem,1.6vw,1rem)',
-            lineHeight:1.85, marginBottom:24 }}>{project.desc}</p>
-
+        {/* LEFT — text details */}
+        <div style={{ order: 2 }}>
           <div style={{ display:'flex', flexDirection:'column', gap:20, marginBottom:24 }}>
             <div>
               <div style={{ fontSize:'0.62rem', fontWeight:700, letterSpacing:'2px',
