@@ -182,25 +182,96 @@ function navBtn(color: string): React.CSSProperties {
 /* ── THUMBNAIL STRIP (replaces old Gallery) ─────────── */
 function ProjectGallery({ project }: { project: typeof projects[0] }) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
+  const [activeImg, setActiveImg] = useState(0)
 
   return (
     <>
-      {/* grid of thumbnails with device frames */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-        gap: 12,
-      }}>
+      {/* large featured image */}
+      <div style={{ position:'relative', marginBottom:12 }}>
+        <button onClick={() => setLightboxIdx(activeImg)} style={{
+          padding:0, border:'none', background:'none', cursor:'zoom-in',
+          width:'100%', display:'block', borderRadius:14, overflow:'hidden',
+          boxShadow:`0 0 0 1px ${project.color}33, 0 16px 48px rgba(0,0,0,0.5)`,
+          transition:'box-shadow 0.25s',
+        }}
+          onMouseEnter={e=>{e.currentTarget.style.boxShadow=`0 0 0 2px ${project.color}88, 0 20px 60px ${project.color}22`}}
+          onMouseLeave={e=>{e.currentTarget.style.boxShadow=`0 0 0 1px ${project.color}33, 0 16px 48px rgba(0,0,0,0.5)`}}
+        >
+          {project.images[activeImg].type === 'desktop' ? (
+            <div style={{ background:'#0a0a18' }}>
+              <div style={{ background:'#07071a', padding:'7px 12px',
+                display:'flex', alignItems:'center', gap:7,
+                borderBottom:`1px solid ${project.color}18` }}>
+                <div style={{ display:'flex', gap:4 }}>
+                  {['#ff5f57','#ffbd2e','#28c840'].map(c=>(
+                    <div key={c} style={{ width:8,height:8,borderRadius:'50%',background:c }} />
+                  ))}
+                </div>
+                <div style={{ flex:1, background:'rgba(255,255,255,0.05)', borderRadius:4, height:8 }} />
+              </div>
+              <div style={{ aspectRatio:'16/9', overflow:'hidden' }}>
+                <img src={project.images[activeImg].src} alt={project.images[activeImg].label}
+                  style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+                  onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${project.id}/800/450`}} />
+              </div>
+            </div>
+          ) : (
+            <div style={{ display:'flex', justifyContent:'center',
+              background:`linear-gradient(135deg,${project.color}08,rgba(4,7,15,0.6))`,
+              padding:'clamp(16px,3vw,32px) 0' }}>
+              <div style={{ maxWidth:260, width:'100%',
+                border:`2px solid ${project.color}55`, borderRadius:28,
+                background:'#08081a', padding:'10px 6px' }}>
+                <div style={{ width:48,height:6,background:'#1a1a30',borderRadius:3,margin:'0 auto 8px' }} />
+                <div style={{ borderRadius:18, overflow:'hidden', aspectRatio:'9/19.5' }}>
+                  <img src={project.images[activeImg].src} alt={project.images[activeImg].label}
+                    style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+                    onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${project.id}m/390/844`}} />
+                </div>
+                <div style={{ width:36,height:4,background:`${project.color}44`,borderRadius:2,margin:'8px auto 0' }} />
+              </div>
+            </div>
+          )}
+        </button>
+
+        {/* nav arrows on image */}
+        {project.images.length > 1 && (
+          <>
+            <button onClick={e=>{e.stopPropagation();setActiveImg(i=>(i-1+project.images.length)%project.images.length)}}
+              style={{ position:'absolute', top:'50%', right:10, transform:'translateY(-50%)',
+                width:36,height:36,borderRadius:'50%',border:`1px solid ${project.color}55`,
+                background:'rgba(4,7,15,0.85)',backdropFilter:'blur(12px)',
+                color:project.color,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',
+                transition:'all 0.2s',zIndex:5 }}
+              onMouseEnter={e=>{e.currentTarget.style.background=project.color;e.currentTarget.style.color='#04070f'}}
+              onMouseLeave={e=>{e.currentTarget.style.background='rgba(4,7,15,0.85)';e.currentTarget.style.color=project.color}}
+            ><ChevronRight size={18} /></button>
+            <button onClick={e=>{e.stopPropagation();setActiveImg(i=>(i+1)%project.images.length)}}
+              style={{ position:'absolute', top:'50%', left:10, transform:'translateY(-50%)',
+                width:36,height:36,borderRadius:'50%',border:`1px solid ${project.color}55`,
+                background:'rgba(4,7,15,0.85)',backdropFilter:'blur(12px)',
+                color:project.color,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',
+                transition:'all 0.2s',zIndex:5 }}
+              onMouseEnter={e=>{e.currentTarget.style.background=project.color;e.currentTarget.style.color='#04070f'}}
+              onMouseLeave={e=>{e.currentTarget.style.background='rgba(4,7,15,0.85)';e.currentTarget.style.color=project.color}}
+            ><ChevronLeft size={18} /></button>
+          </>
+        )}
+      </div>
+
+      {/* thumbnail strip */}
+      <div style={{ display:'flex', gap:8, flexWrap:'wrap', justifyContent:'center' }}>
         {project.images.map((img, i) => (
-          <button key={i} onClick={() => setLightboxIdx(i)} style={{
-            padding: 0, border:'none', background:'none',
-            cursor:'pointer', borderRadius:12, overflow:'visible',
-            position:'relative',
+          <button key={i} onClick={() => setActiveImg(i)} style={{
+            width:52, height:36, borderRadius:7, overflow:'hidden',
+            border: i===activeImg ? `2px solid ${project.color}` : '2px solid rgba(255,255,255,0.07)',
+            cursor:'pointer', padding:0, transition:'all 0.2s',
+            boxShadow: i===activeImg ? `0 0 10px ${project.color}66` : 'none',
           }}>
-            {img.type === 'mobile'
-              ? <MiniMobile src={img.src} color={project.color} label={img.label} />
-              : <MiniDesktop src={img.src} color={project.color} label={img.label} />
-            }
+            <img src={img.src} alt={img.label}
+              style={{ width:'100%', height:'100%', objectFit:'cover',
+                filter: i===activeImg ? 'none' : 'brightness(0.35)' }}
+              onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${project.id}${i}/80/60`}} />
           </button>
         ))}
       </div>
