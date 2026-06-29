@@ -66,7 +66,7 @@ export default function Hero() {
           fontSize: '0.68rem', fontWeight: 700, letterSpacing: '3px',
           textTransform: 'uppercase', color: 'var(--accent)',
         }}>
-          15 שנות ניסיון · full‑stack · ai · medical
+          15 שנות ניסיון · full stack · ai · medical
         </div>
 
         {/* headline */}
@@ -139,10 +139,10 @@ export default function Hero() {
             fontSize: 'clamp(0.88rem,2vw,1rem)', fontWeight: 700,
             cursor: 'pointer', transition: 'all 0.25s',
             boxShadow: '0 0 0 1px rgba(0,229,255,0.3)',
+            display:'inline-flex', alignItems:'center', gap:8,
           }}
             onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 16px 48px rgba(0,229,255,0.4)' }}
             onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow='0 0 0 1px rgba(0,229,255,0.3)' }}
-          style={{ display:'inline-flex', alignItems:'center', gap:8 }}
           >בואו נדבר <MessageCircle size={18} strokeWidth={2} /></button>
         </div>
 

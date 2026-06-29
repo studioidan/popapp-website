@@ -97,7 +97,7 @@ export default function Navbar() {
             marginTop:28, background:'linear-gradient(135deg,#00e5ff,#0077ff)',
             color:'#04070f', border:'none', padding:'16px', borderRadius:12,
             fontFamily:'inherit', fontSize:'1.1rem', fontWeight:700, cursor:'pointer',
-          }}>בואו נדבר →</button>
+          }}>בואו נדבר</button>
         </div>
       )}
 

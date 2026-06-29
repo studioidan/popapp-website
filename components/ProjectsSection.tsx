@@ -1,6 +1,7 @@
 'use client'
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { ChevronRight, ChevronLeft, X, Smartphone, Monitor, ExternalLink } from 'lucide-react'
 import { projects } from '@/lib/projects'
 
 /* ── LIGHTBOX (portal — renders at body level) ───────── */
@@ -73,7 +74,7 @@ function Lightbox({ project, startIdx, onClose }: {
           }}
             onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.18)'}
             onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.08)'}
-          >✕</button>
+          ><X size={16} /></button>
         </div>
       </div>
 
@@ -115,7 +116,7 @@ function Lightbox({ project, startIdx, onClose }: {
           display:'flex', alignItems:'center', gap:6,
           pointerEvents: 'none',
         }}>
-          <span>{img.type === 'mobile' ? '📱' : '🖥️'}</span>
+          {img.type === 'mobile' ? <Smartphone size={12} /> : <Monitor size={12} />}
           {img.type === 'mobile' ? 'Mobile' : 'Desktop'}
         </div>
       </div>
@@ -129,7 +130,7 @@ function Lightbox({ project, startIdx, onClose }: {
         pointerEvents: 'none',
       }}>
         {/* prev */}
-        <button onClick={e => { e.stopPropagation(); prev() }} style={{...navBtn(project.color), pointerEvents:'auto'}}>→</button>
+        <button onClick={e => { e.stopPropagation(); prev() }} style={{...navBtn(project.color), pointerEvents:'auto'}}><ChevronRight size={18} /></button>
 
         {/* thumbnails */}
         <div style={{ display:'flex', gap:8, alignItems:'center', pointerEvents:'auto' }}>
@@ -154,7 +155,7 @@ function Lightbox({ project, startIdx, onClose }: {
         </div>
 
         {/* next */}
-        <button onClick={e => { e.stopPropagation(); next() }} style={{...navBtn(project.color), pointerEvents:'auto'}}>←</button>
+        <button onClick={e => { e.stopPropagation(); next() }} style={{...navBtn(project.color), pointerEvents:'auto'}}><ChevronLeft size={18} /></button>
       </div>
 
       <style>{`
@@ -353,7 +354,7 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
             }}
             onMouseEnter={e=>{e.currentTarget.style.background=`${project.color}18`;e.currentTarget.style.transform='translateY(-2px)'}}
             onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.04)';e.currentTarget.style.transform=''}}
-          >🔗 בקר באתר</a>
+          ><ExternalLink size={14} /> בקר באתר</a>
         )}
       </div>
 
