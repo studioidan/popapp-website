@@ -457,17 +457,6 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
             </div>
           </div>
 
-          <div style={{ display:'flex', gap:8, marginBottom:20, flexWrap:'wrap' }}>
-            {project.stats.map(s=>(
-              <div key={s.label} style={{ textAlign:'center',
-                background:'rgba(255,255,255,0.03)', border:'1px solid var(--border)',
-                borderRadius:10, padding:'10px 14px', minWidth:70 }}>
-                <div style={{ fontWeight:800, fontSize:'0.95rem', color:project.color }}>{s.value}</div>
-                <div style={{ fontSize:'0.58rem', color:'var(--text-muted)', marginTop:2 }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-
           <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
             {project.tech.map(t=>(
               <span key={t} style={{
