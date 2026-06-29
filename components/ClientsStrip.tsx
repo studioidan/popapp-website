@@ -50,7 +50,13 @@ export default function ClientsStrip() {
             <div key={i} style={{
               flexShrink: 0,
               transition: 'opacity 0.3s, transform 0.3s',
-              opacity: 0.55,
+              opacity: 0.8,
+              background: 'rgba(255,255,255,0.95)',
+              borderRadius: 10,
+              padding: '10px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
               onMouseEnter={e => {
                 e.currentTarget.style.opacity = '1'
@@ -58,7 +64,7 @@ export default function ClientsStrip() {
                 ;(e.currentTarget.parentElement as HTMLElement).style.animationPlayState = 'paused'
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.opacity = '0.55'
+                e.currentTarget.style.opacity = '0.8'
                 e.currentTarget.style.transform = ''
                 ;(e.currentTarget.parentElement as HTMLElement).style.animationPlayState = 'running'
               }}
@@ -67,12 +73,10 @@ export default function ClientsStrip() {
                 src={c.src}
                 alt={c.name}
                 style={{
-                  height: 44,
-                  maxWidth: 160,
+                  height: 36,
+                  maxWidth: 140,
                   objectFit: 'contain',
                   display: 'block',
-                  /* natural colors, no filter */
-                  filter: 'none',
                 }}
               />
             </div>
