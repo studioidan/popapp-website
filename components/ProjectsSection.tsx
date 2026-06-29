@@ -311,46 +311,50 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
       marginBottom:'clamp(72px,9vw,120px)',
     }}>
 
-      {/* ── CENTERED HEADER ── */}
-      <div style={{ textAlign:'center', marginBottom:'clamp(24px,4vw,40px)' }}>
-        {/* logo + name */}
-        <div style={{ display:'inline-flex', alignItems:'center', gap:14, marginBottom:12 }}>
-          <div style={{
-            width:52, height:52, borderRadius:14, flexShrink:0,
-            background:`linear-gradient(135deg,${project.gradientFrom}33,${project.gradientTo}22)`,
-            border:`1.5px solid ${project.color}44`,
-            display:'flex', alignItems:'center', justifyContent:'center',
-            fontSize:'1.6rem', overflow:'hidden',
-            boxShadow:`0 6px 20px ${project.color}22`,
-          }}>
-            {project.logoSrc
-              ? <img src={project.logoSrc} alt={project.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-              : <span>{project.emoji}</span>
-            }
+      {/* ── HEADER: right-aligned title + link opposite ── */}
+      <div style={{ marginBottom:'clamp(24px,4vw,40px)' }}>
+
+        {/* top row: logo + name (right) | link (left) */}
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between',
+          gap:16, marginBottom:16, flexWrap:'wrap' }}>
+
+          {/* logo + name — right */}
+          <div style={{ display:'flex', alignItems:'center', gap:14 }}>
+            <div style={{
+              width:52, height:52, borderRadius:14, flexShrink:0,
+              display:'flex', alignItems:'center', justifyContent:'center',
+              fontSize:'1.6rem', overflow:'hidden',
+            }}>
+              {project.logoSrc
+                ? <img src={project.logoSrc} alt={project.name}
+                    style={{ width:'100%', height:'100%', objectFit:'contain' }} />
+                : <span>{project.emoji}</span>
+              }
+            </div>
+            <h3 style={{ fontSize:'clamp(1.4rem,3vw,2.2rem)', fontWeight:900,
+              letterSpacing:'-1px', lineHeight:1 }}>{project.name}</h3>
           </div>
-          <h3 style={{ fontSize:'clamp(1.4rem,3vw,2.2rem)', fontWeight:900,
-            letterSpacing:'-1px', lineHeight:1 }}>{project.name}</h3>
+
+          {/* link — left */}
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noopener noreferrer"
+              style={{
+                display:'inline-flex', alignItems:'center', gap:7,
+                background:'rgba(255,255,255,0.04)', backdropFilter:'blur(12px)',
+                border:`1px solid ${project.color}44`, color:project.color,
+                textDecoration:'none', padding:'9px 20px', borderRadius:10,
+                fontWeight:600, fontSize:'0.82rem', fontFamily:'inherit',
+                transition:'all 0.25s', whiteSpace:'nowrap', flexShrink:0,
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.background=`${project.color}18`;e.currentTarget.style.transform='translateY(-2px)'}}
+              onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.04)';e.currentTarget.style.transform=''}}
+            ><ExternalLink size={14} /> בקרו באתר</a>
+          )}
         </div>
 
-        {/* desc */}
+        {/* desc — right-aligned */}
         <p style={{ color:'var(--text-secondary)', fontSize:'clamp(0.9rem,1.6vw,1rem)',
-          lineHeight:1.85, maxWidth:680, margin:'0 auto 20px' }}>{project.desc}</p>
-
-        {/* link */}
-        {project.link && (
-          <a href={project.link} target="_blank" rel="noopener noreferrer"
-            style={{
-              display:'inline-flex', alignItems:'center', gap:7,
-              background:'rgba(255,255,255,0.04)', backdropFilter:'blur(12px)',
-              border:`1px solid ${project.color}44`, color:project.color,
-              textDecoration:'none', padding:'9px 20px', borderRadius:10,
-              fontWeight:600, fontSize:'0.82rem', fontFamily:'inherit',
-              transition:'all 0.25s',
-            }}
-            onMouseEnter={e=>{e.currentTarget.style.background=`${project.color}18`;e.currentTarget.style.transform='translateY(-2px)'}}
-            onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.04)';e.currentTarget.style.transform=''}}
-          ><ExternalLink size={14} /> בקר באתר</a>
-        )}
+          lineHeight:1.85, maxWidth:680 }}>{project.desc}</p>
       </div>
 
       {/* ── 2 COLUMNS: images right | text left ── */}
