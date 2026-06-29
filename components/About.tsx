@@ -1,15 +1,5 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import { Zap, Brain, Stethoscope, Smile, DollarSign, Handshake } from 'lucide-react'
-
-const HIGHLIGHTS = [
-  { Icon: Zap,         title: 'מהיר להבין',      text: 'פגישה אחת מספיקה. אני מבין את הצורך, מזהה את הפתרון ומתחיל לבנות.', color: '#00e5ff', anim: 'pulse' },
-  { Icon: Brain,       title: 'Full-Stack אמיתי', text: 'Mobile, Web, AI, IoT, Backend, Cloud. בכל שכבה, בכל טכנולוגיה.', color: '#7c3aed', anim: 'none' },
-  { Icon: Stethoscope, title: 'Medical Startups', text: 'ניסיון ייחודי עם סטארטאפים רפואיים. רגולציה, CGM APIs, HL7/FHIR.', color: '#10b981', anim: 'none' },
-  { Icon: Smile,       title: 'כיף לעבוד איתי',  text: 'שקוף, ישיר, נגיש. תמיד בתמונה. לקוחות חוזרים כי הדרך לא פחות חשובה מהיעד.', color: '#f59e0b', anim: 'spin-slow' },
-  { Icon: DollarSign,  title: 'תקציב בשליטה',    text: 'אתה משלם על קוד שרץ, לא על PM, QA וארכיטקטים שמעבירים הודעות.', color: '#ff6b35', anim: 'none' },
-  { Icon: Handshake,   title: 'שותף, לא קבלן',   text: 'מבין את הביזנס, שואל שאלות קשות, ומגיע עם הצעות משלי.', color: '#00e5ff', anim: 'none' },
-]
 
 export default function About() {
   const refs = useRef<(HTMLElement | null)[]>([])
@@ -86,48 +76,8 @@ export default function About() {
           {' '}פגישה אחת מספיקה כדי שאבין בדיוק מה צריך, ומשם קוד שרץ תוך ימים, לא חודשים. בלי ישיבות מיותרות, בלי תקציב שנשרף.
         </p>
 
-        {/* highlights grid */}
-        <div style={{ display:'grid',
-          gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,200px),1fr))', gap:16 }}>
-          {HIGHLIGHTS.map((h, i) => (
-            <div key={h.title} ref={r(6+i)} data-i={6+i}
-              style={{ background:'rgba(255,255,255,0.03)', backdropFilter:'blur(12px)',
-                border:'1px solid rgba(255,255,255,0.07)', borderRadius:18,
-                padding:'clamp(20px,3vw,28px)', ...anim((6+i)*0.07),
-                transition: `opacity 0.7s ease ${(6+i)*0.07}s, transform 0.7s ease ${(6+i)*0.07}s, border-color 0.3s, box-shadow 0.3s` }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor=`${h.color}44`
-                e.currentTarget.style.transform='translateY(-4px)'
-                e.currentTarget.style.boxShadow=`0 16px 48px ${h.color}14`
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'
-                e.currentTarget.style.transform='translateY(0)'
-                e.currentTarget.style.boxShadow='none'
-              }}
-            >
-              <div style={{ marginBottom:16 }}>
-                <h.Icon
-                  size={28}
-                  color={h.color}
-                  strokeWidth={1.75}
-                  style={{
-                    animation: h.anim === 'pulse'
-                      ? 'icon-pulse 2s ease-in-out infinite'
-                      : h.anim === 'spin-slow'
-                      ? 'icon-spin 6s linear infinite'
-                      : 'none',
-                  }}
-                />
-              </div>
-              <div style={{ fontWeight:700, fontSize:'0.98rem', marginBottom:8 }}>{h.title}</div>
-              <p style={{ color:'var(--text-secondary)', fontSize:'0.84rem', lineHeight:1.72 }}>{h.text}</p>
-            </div>
-          ))}
-        </div>
-
         {/* stats */}
-        <div ref={r(10)} data-i="10" style={{ display:'flex', gap:'clamp(24px,5vw,64px)',
+        <div ref={r(6)} data-i="6" style={{ display:'flex', gap:'clamp(24px,5vw,64px)',
           flexWrap:'wrap', paddingTop:48, marginTop:48,
           borderTop:'1px solid var(--border)', ...anim(0.5) }}>
           {[
@@ -145,17 +95,6 @@ export default function About() {
           ))}
         </div>
       </div>
-
-      <style>{`
-        @keyframes icon-pulse {
-          0%,100% { opacity:1; transform:scale(1); }
-          50% { opacity:0.7; transform:scale(1.15); }
-        }
-        @keyframes icon-spin {
-          from { transform:rotate(0deg); }
-          to   { transform:rotate(360deg); }
-        }
-      `}</style>
     </section>
   )
 }
