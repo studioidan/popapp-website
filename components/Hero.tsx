@@ -59,6 +59,16 @@ export default function Hero() {
         pointerEvents:'none' }} />
 
       <div ref={ref} style={{ maxWidth: 760, width: '100%' }}>
+
+        {/* DEPLOY TEST — remove after confirming */}
+        <div style={{
+          background: '#ff0000', color: '#fff', padding: '12px 24px',
+          borderRadius: 8, marginBottom: 24, fontWeight: 900, fontSize: '1.2rem',
+          textAlign: 'center',
+        }}>
+          🔴 גרסה 1 — אם אתה רואה את זה, ה-deploy עובד!
+        </div>
+
         {/* eyebrow */}
         <div className="ha" style={{
           display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 36,
