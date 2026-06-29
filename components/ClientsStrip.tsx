@@ -1,7 +1,14 @@
 'use client'
-import { clients } from '@/lib/projects'
 
-// 4x duplication for truly seamless infinite scroll
+const clients = [
+  { name: 'ישראל היום',        src: '/logos/israel-hayom.png' },
+  { name: 'The Times of Israel',src: '/logos/times-of-israel.png' },
+  { name: 'סובארו',            src: '/logos/subaru.png' },
+  { name: 'Johnnie Walker',    src: '/logos/johnnie-walker.png' },
+  { name: 'הטכניון',           src: '/logos/technion.png' },
+]
+
+// 4x for seamless loop
 const all = [...clients, ...clients, ...clients, ...clients]
 
 export default function ClientsStrip() {
@@ -19,7 +26,7 @@ export default function ClientsStrip() {
         fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px',
         textTransform: 'uppercase', color: 'var(--text-muted)',
       }}>
-        בין הלקוחות שעבדתי איתם
+        עבדתי עם
       </div>
 
       <div style={{ position: 'relative', overflow: 'hidden' }}>
@@ -36,27 +43,36 @@ export default function ClientsStrip() {
           gap: 80,
           alignItems: 'center',
           width: 'max-content',
-          animation: 'clients-scroll 28s linear infinite',
+          animation: 'clients-scroll 30s linear infinite',
           willChange: 'transform',
         }}>
           {all.map((c, i) => (
             <div key={i} style={{
               flexShrink: 0,
-              opacity: 0.4,
               transition: 'opacity 0.3s, transform 0.3s',
-              cursor: 'default',
+              opacity: 0.55,
             }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(-2px)'; (e.currentTarget.parentElement as HTMLElement).style.animationPlayState = 'paused' }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = '0.4'; e.currentTarget.style.transform = ''; (e.currentTarget.parentElement as HTMLElement).style.animationPlayState = 'running' }}
+              onMouseEnter={e => {
+                e.currentTarget.style.opacity = '1'
+                e.currentTarget.style.transform = 'translateY(-2px)'
+                ;(e.currentTarget.parentElement as HTMLElement).style.animationPlayState = 'paused'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.opacity = '0.55'
+                e.currentTarget.style.transform = ''
+                ;(e.currentTarget.parentElement as HTMLElement).style.animationPlayState = 'running'
+              }}
             >
               <img
-                src={c.logo}
+                src={c.src}
                 alt={c.name}
-                style={{ height: 52, maxWidth: 180, objectFit: 'contain',
-                  filter: 'brightness(0) invert(1)', display: 'block' }}
-                onError={e => {
-                  // just hide — no fallback text
-                  (e.target as HTMLImageElement).parentElement!.style.display = 'none'
+                style={{
+                  height: 44,
+                  maxWidth: 160,
+                  objectFit: 'contain',
+                  display: 'block',
+                  /* grayscale + invert to white on dark bg */
+                  filter: 'grayscale(100%) brightness(0) invert(1)',
                 }}
               />
             </div>
