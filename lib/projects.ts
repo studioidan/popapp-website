@@ -2,6 +2,7 @@ export interface Project {
   id: string
   name: string
   emoji: string
+  logoSrc?: string
   tag: string
   tagline: string
   color: string
@@ -21,6 +22,7 @@ export const projects: Project[] = [
     id: 'mebook',
     name: 'MeBook.ai',
     emoji: '📚',
+    logoSrc: '/logos/mebook-logo.png',
     tag: 'AI · ספרי ילדים',
     tagline: 'הילד שלך — גיבור הסיפור',
     color: '#ff6b35',

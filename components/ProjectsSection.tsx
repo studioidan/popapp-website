@@ -319,20 +319,17 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
             background:`linear-gradient(135deg,${project.gradientFrom}33,${project.gradientTo}22)`,
             border:`1.5px solid ${project.color}44`,
             display:'flex', alignItems:'center', justifyContent:'center',
-            fontSize:'1.5rem',
+            fontSize:'1.5rem', overflow:'hidden',
             boxShadow:`0 6px 20px ${project.color}22`,
-          }}>{project.emoji}</div>
+          }}>
+            {project.logoSrc
+              ? <img src={project.logoSrc} alt={project.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+              : <span>{project.emoji}</span>
+            }
+          </div>
 
           <h3 style={{ fontSize:'clamp(1.3rem,3vw,2rem)', fontWeight:900,
             letterSpacing:'-0.8px', lineHeight:1 }}>{project.name}</h3>
-
-          <span style={{
-            background:`${project.color}15`, color:project.color,
-            border:`1px solid ${project.color}44`,
-            fontSize:'0.6rem', fontWeight:700, letterSpacing:'1.5px',
-            textTransform:'uppercase', padding:'3px 10px', borderRadius:20,
-            display:'none',
-          }} className="tag-desktop">{project.tag}</span>
         </div>
 
         {/* tagline */}
