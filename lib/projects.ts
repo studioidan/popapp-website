@@ -120,6 +120,30 @@ export const projects: Project[] = [
       { label: 'טכנולוגיה', value: 'CGM + ML' },
     ],
   },
+  {
+    id: 'better',
+    name: 'Better',
+    emoji: '💳',
+    logoSrc: '/logos/better-logo.png',
+    tag: 'Fintech · ניהול פיננסי אישי',
+    tagline: 'טכנולוגיה שחוסכת לך כסף בלי מאמץ',
+    color: '#2f6bff',
+    gradientFrom: '#2f6bff',
+    gradientTo: '#22c1dc',
+    desc: 'אפליקציית פינטק שסורקת את כל התחומים הפיננסיים של המשתמש (פנסיה, בנק, ביטוחים, הלוואות, השקעות והחזרי מס), משווה מול השוק, ומחברת בין המשתמש לצוות מומחים שדואג שיקבל את התנאים הכי משתלמים, כולל עדכונים ישירות בצ׳אט.',
+    challenge: 'לבנות אפליקציה שמרכזת נתונים פיננסיים רגישים ממקורות רבים בצורה מאובטחת ותואמת רגולציה, ומציגה אותם למשתמש בצורה פשוטה וברורה לצד המלצות פעולה.',
+    result: 'שירות פעיל עם אלפי לקוחות וצוות יועצים מוסמכים בתחומי משכנתאות, מס, פנסיה, אשראי, השקעות וביטוח.',
+    tech: ['React Native', 'Node.js', 'PostgreSQL', 'AWS'],
+    link: 'https://go.allbetter.co.il/',
+    images: [
+      { src: '/projects/better/app-mockup.png', type: 'desktop', label: 'אפליקציית Better' },
+    ],
+    stats: [
+      { label: 'לקוחות', value: '19,000+' },
+      { label: 'תחומים פיננסיים', value: '6' },
+      { label: 'הוקמה', value: '2021' },
+    ],
+  },
 ]
 
 export const clients = [
