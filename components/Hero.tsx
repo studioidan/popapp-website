@@ -63,7 +63,7 @@ export default function Hero() {
 
         {/* headline */}
         <h1 className="ha" style={{
-          fontSize: 'clamp(2.8rem, 8vw, 8.5rem)',
+          fontSize: 'clamp(3.4rem, 12vw, 8.5rem)',
           fontWeight: 900, lineHeight: 0.92, letterSpacing: '-4px',
           marginBottom: 28,
         }}>
@@ -142,7 +142,7 @@ export default function Hero() {
 
       {/* scroll indicator */}
       <div style={{
-        position: 'absolute', bottom: -24, left: '50%',
+        position: 'absolute', bottom: 'clamp(16px,4vw,32px)', left: '50%',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
         animation: 'floatY 2.5s ease-in-out infinite',
       }}>
