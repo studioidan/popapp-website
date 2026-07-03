@@ -16,7 +16,6 @@ export default function Navbar() {
   const links = [
     { label: 'מי אני', id: 'about' },
     { label: 'פרויקטים', id: 'projects' },
-    { label: 'תהליך', id: 'process' },
   ]
 
   return (
