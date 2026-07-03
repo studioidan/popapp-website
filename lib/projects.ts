@@ -168,4 +168,8 @@ export const clients = [
     name: 'Johnnie Walker',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Johnnie_Walker_logo.svg/200px-Johnnie_Walker_logo.svg.png',
   },
+  {
+    name: 'Better',
+    logo: '/logos/better-logo.png',
+  },
 ]

@@ -6,6 +6,7 @@ const clients = [
   { name: 'סובארו',            src: '/logos/subaru.png' },
   { name: 'Johnnie Walker',    src: '/logos/johnnie-walker.png' },
   { name: 'הטכניון',           src: '/logos/technion.png' },
+  { name: 'Better',            src: '/logos/better-logo.png' },
 ]
 
 // 4x for seamless loop
