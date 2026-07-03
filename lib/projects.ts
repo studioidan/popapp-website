@@ -100,6 +100,7 @@ export const projects: Project[] = [
     id: 'makesense',
     name: 'MakeSense',
     emoji: '🩺',
+    logoSrc: '/logos/makesense-logo.png',
     tag: 'Medical AI · Startup',
     tagline: 'הפלטפורמה הראשונה לניטור פחמימות אוטומטי',
     color: '#10b981',
@@ -112,9 +113,8 @@ export const projects: Project[] = [
     link: 'https://www.makesensedht.com',
     images: [
       { src: 'https://static.wixstatic.com/media/397d84_e4bfc078a0764a3fb118705609d4fc9b~mv2.png/v1/fill/w_1610,h_800,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Frame%201707481449%20(1).png', type: 'desktop', label: 'Dashboard רפואי' },
-      { src: 'https://picsum.photos/seed/med2/390/844', type: 'mobile', label: 'ניטור גלוקוז' },
-      { src: 'https://picsum.photos/seed/med3/390/844', type: 'mobile', label: 'דוח יומי' },
-      { src: 'https://picsum.photos/seed/med4/800/500', type: 'desktop', label: 'ממשק רופא' },
+      { src: '/projects/makesense/app-mockup.png', type: 'desktop', label: 'אפליקציית משתמש' },
+      { src: '/projects/makesense/admin-dashboard.png', type: 'desktop', label: 'לוח בקרה לצוות רפואי' },
     ],
     stats: [
       { label: 'תחום', value: 'Medical AI' },
