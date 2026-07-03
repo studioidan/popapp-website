@@ -52,7 +52,7 @@ export default function Contact() {
                 WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>בוא נתחיל.</span>
             </h2>
             <p style={{color:'var(--text-secondary)',fontSize:'clamp(0.9rem,1.8vw,1rem)',lineHeight:1.85,marginBottom:40,maxWidth:380}}>
-              Medical startup, אפליקציה, AI — אחזור תוך{' '}
+              Medical startup, אפליקציה, AI. אחזור תוך{' '}
               <strong style={{color:'var(--text-primary)'}}>24 שעות</strong>{' '}
               עם כיוון ראשוני בחינם.
             </p>
