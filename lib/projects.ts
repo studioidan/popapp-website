@@ -110,7 +110,6 @@ export const projects: Project[] = [
     tech: ['React Native', 'Python', 'TensorFlow', 'CGM APIs', 'HL7/FHIR', 'Node.js'],
     link: 'https://www.makesensedht.com',
     images: [
-      { src: 'https://static.wixstatic.com/media/397d84_e4bfc078a0764a3fb118705609d4fc9b~mv2.png/v1/fill/w_1610,h_800,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Frame%201707481449%20(1).png', type: 'desktop', label: 'Dashboard רפואי' },
       { src: '/projects/makesense/app-mockup.png', type: 'desktop', label: 'אפליקציית משתמש' },
       { src: '/projects/makesense/admin-dashboard.png', type: 'desktop', label: 'לוח בקרה לצוות רפואי' },
     ],
