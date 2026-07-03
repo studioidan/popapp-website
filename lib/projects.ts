@@ -56,7 +56,7 @@ export const projects: Project[] = [
     color: '#f59e0b',
     gradientFrom: '#f59e0b',
     gradientTo: '#ef4444',
-    desc: 'אפליקציית המתכונים הרשמית של השפית ניקי ביסלייך. חיפוש חכם, פילטרים, מועדפים, וחוויית משתמש שגורמת לבשל.',
+    desc: 'אפליקציית המתכונים הרשמית של השפית ניקי. חיפוש חכם, פילטרים, מועדפים, וחוויית משתמש שגורמת לבשל.',
     challenge: 'לבנות אפליקציה שתתמוך במאות מתכונים עם תמונות HD, חיפוש מיידי, offline mode — ועדיין תרגיש קלילה ומהירה.',
     result: 'מעל 100,000 הורדות, דירוג 4.8 כוכבים, אפליקציה חיה ב-App Store ו-Google Play.',
     tech: ['React Native', 'Node.js', 'PostgreSQL', 'Firebase', 'Algolia Search', 'CDN'],
