@@ -55,10 +55,6 @@ export default function Process() {
             onMouseEnter={e=>{e.currentTarget.style.borderColor='rgba(0,229,255,0.25)';e.currentTarget.style.transform='translateY(-5px)'}}
             onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.06)';e.currentTarget.style.transform='translateY(0)'}}
           >
-            <div style={{ fontSize:'2.8rem', fontWeight:900, letterSpacing:'-2px',
-              color:'transparent', WebkitTextStroke:'1px rgba(0,229,255,0.2)',
-              lineHeight:1, marginBottom:20, userSelect:'none' }}>{s.num}</div>
-
             <s.Icon
               size={26}
               color='var(--accent)'

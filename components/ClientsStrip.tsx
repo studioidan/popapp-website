@@ -30,12 +30,12 @@ export default function ClientsStrip() {
         עבדתי עם
       </div>
 
-      <div style={{ position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', overflow: 'hidden', width: '100%' }}>
         {/* fade edges */}
-        <div style={{ position:'absolute', right:0, top:0, bottom:0, width:120,
+        <div style={{ position:'absolute', right:0, top:0, bottom:0, width:'clamp(40px,10vw,120px)',
           background:'linear-gradient(to left, var(--bg-base), transparent)',
           zIndex:2, pointerEvents:'none' }} />
-        <div style={{ position:'absolute', left:0, top:0, bottom:0, width:120,
+        <div style={{ position:'absolute', left:0, top:0, bottom:0, width:'clamp(40px,10vw,120px)',
           background:'linear-gradient(to right, var(--bg-base), transparent)',
           zIndex:2, pointerEvents:'none' }} />
 
@@ -44,8 +44,11 @@ export default function ClientsStrip() {
           gap: 100,
           alignItems: 'center',
           width: 'max-content',
+          minHeight: 92,
           animation: 'clients-scroll 30s linear infinite',
           willChange: 'transform',
+          transform: 'translateZ(0)',
+          WebkitTransform: 'translateZ(0)',
         }}>
           {all.map((c, i) => (
             <div key={i} style={{
@@ -73,12 +76,14 @@ export default function ClientsStrip() {
               <img
                 src={c.src}
                 alt={c.name}
+                loading="eager"
                 style={{
                   height: 56,
                   maxWidth: 200,
                   objectFit: 'contain',
                   display: 'block',
                 }}
+                onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
               />
             </div>
           ))}
