@@ -74,6 +74,7 @@ export const projects: Project[] = [
     id: 'bcone',
     name: 'Lifebuoy',
     emoji: '🏊',
+    logoSrc: '/logos/bcone-logo.png',
     tag: 'IoT · בטיחות',
     tagline: 'שניות קובעות חיים',
     color: '#3b82f6',
@@ -85,10 +86,7 @@ export const projects: Project[] = [
     tech: ['Python', 'OpenCV', 'TensorFlow Lite', 'React Native', 'AWS IoT', 'MQTT'],
     link: 'https://lifebuoyalarm.com',
     images: [
-      { src: 'https://picsum.photos/seed/pool1/800/500', type: 'desktop', label: 'דף הבית' },
-      { src: 'https://picsum.photos/seed/pool2/390/844', type: 'mobile', label: 'התראה בזמן אמת' },
-      { src: 'https://picsum.photos/seed/pool3/390/844', type: 'mobile', label: 'ניהול מצלמות' },
-      { src: 'https://picsum.photos/seed/pool4/800/500', type: 'desktop', label: 'Dashboard' },
+      { src: '/projects/bcone/mockup.png', type: 'desktop', label: 'אפליקציית BCone' },
     ],
     stats: [
       { label: 'זמן תגובה', value: '<2 שניות' },
