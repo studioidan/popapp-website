@@ -63,8 +63,6 @@ export const projects: Project[] = [
     link: 'https://nikib.co.il',
     images: [
       { src: '/projects/niki/mockup.png', type: 'desktop', label: 'מוקאפ האפליקציה' },
-      { src: 'https://picsum.photos/seed/niki2/390/844', type: 'mobile', label: 'חיפוש מתכונים' },
-      { src: 'https://picsum.photos/seed/niki3/390/844', type: 'mobile', label: 'עמוד מתכון' },
     ],
     stats: [
       { label: 'הורדות', value: '100K+' },
