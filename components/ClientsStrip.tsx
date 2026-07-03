@@ -16,15 +16,15 @@ export default function ClientsStrip() {
   return (
     <section style={{
       position: 'relative', zIndex: 10,
-      padding: 'clamp(48px,6vw,72px) 0',
+      padding: 'clamp(64px,8vw,96px) 0',
       borderTop: '1px solid var(--border)',
       borderBottom: '1px solid var(--border)',
       overflow: 'hidden',
       background: 'rgba(255,255,255,0.01)',
     }}>
       <div style={{
-        textAlign: 'center', marginBottom: 36,
-        fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px',
+        textAlign: 'center', marginBottom: 44,
+        fontSize: '0.78rem', fontWeight: 700, letterSpacing: '3px',
         textTransform: 'uppercase', color: 'var(--text-muted)',
       }}>
         עבדתי עם
@@ -41,7 +41,7 @@ export default function ClientsStrip() {
 
         <div style={{
           display: 'flex',
-          gap: 80,
+          gap: 100,
           alignItems: 'center',
           width: 'max-content',
           animation: 'clients-scroll 30s linear infinite',
@@ -53,8 +53,8 @@ export default function ClientsStrip() {
               transition: 'opacity 0.3s, transform 0.3s',
               opacity: 0.8,
               background: 'rgba(255,255,255,0.95)',
-              borderRadius: 10,
-              padding: '10px 20px',
+              borderRadius: 14,
+              padding: '18px 32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -74,8 +74,8 @@ export default function ClientsStrip() {
                 src={c.src}
                 alt={c.name}
                 style={{
-                  height: 36,
-                  maxWidth: 140,
+                  height: 56,
+                  maxWidth: 200,
                   objectFit: 'contain',
                   display: 'block',
                 }}
