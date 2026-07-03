@@ -30,6 +30,7 @@ export default function Process() {
     <section id="process" style={{ position:'relative', zIndex:10,
       padding:'clamp(80px,10vw,140px) clamp(24px,8vw,120px)',
       background:'linear-gradient(to bottom,transparent,rgba(0,229,255,0.02),transparent)' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
       <div style={{ display:'flex', alignItems:'center', gap:10, fontSize:'0.68rem', fontWeight:700,
         letterSpacing:'3px', textTransform:'uppercase', color:'var(--accent)', marginBottom:16 }}>
         <span style={{ width:24, height:1.5, background:'var(--accent)', display:'block' }} />
@@ -75,6 +76,7 @@ export default function Process() {
             <p style={{ color:'var(--text-secondary)', fontSize:'0.84rem', lineHeight:1.7 }}>{s.text}</p>
           </div>
         ))}
+      </div>
       </div>
 
       <style>{`
