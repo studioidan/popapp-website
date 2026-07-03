@@ -2,9 +2,9 @@
 import { Zap, Brain, Stethoscope, Smile } from 'lucide-react'
 
 const cards = [
-  { Icon: Zap,         title:'מהיר להבין',      text:'פגישה אחת מספיקה. אני מבין את הצורך ומתחיל לבנות.', accent:'#00e5ff' },
+  { Icon: Zap,         title:'מהיר להבין',      text:'פגישה אחת מספיקה. מבין אותך מהר ומתחיל לבנות.', accent:'#00e5ff' },
   { Icon: Brain,       title:'Full-Stack אמיתי', text:'Frontend, Backend, Mobile, AI, Cloud, DevOps. בכל שכבה, בכל טכנולוגיה.', accent:'#7c3aed' },
-  { Icon: Stethoscope, title:'Medical Startups', text:'ניסיון עם רגולציה רפואית, CGM APIs, HL7/FHIR.', accent:'#10b981' },
+  { Icon: Stethoscope, title:'Medical Startups', text:'ניסיון עם רגולציה רפואית, CGM APIs, HL7/FHIR, תהליכי FDA, בדיקות חדירה (PT) ותהליך SOC2.', accent:'#10b981' },
   { Icon: Smile,       title:'כיף לעבוד איתי',  text:'ישיר, שקוף, נגיש. לקוחות חוזרים כי הדרך לא פחות חשובה מהיעד.', accent:'#f59e0b' },
 ]
 

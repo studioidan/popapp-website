@@ -49,7 +49,7 @@ export default function Contact() {
               letterSpacing:'-2px',lineHeight:0.95,marginBottom:24}}>
               יש לך רעיון?<br />
               <span style={{background:'linear-gradient(135deg,#00e5ff,#0077ff)',
-                WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>בואו נבנה.</span>
+                WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>בוא נתחיל.</span>
             </h2>
             <p style={{color:'var(--text-secondary)',fontSize:'clamp(0.9rem,1.8vw,1rem)',lineHeight:1.85,marginBottom:40,maxWidth:380}}>
               Medical startup, אפליקציה, AI — אחזור תוך{' '}
