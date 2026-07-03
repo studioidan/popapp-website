@@ -190,7 +190,7 @@ function ProjectGallery({ project }: { project: typeof projects[0] }) {
       {/* fixed-height image area — never jumps */}
       <div style={{ position:'relative', marginBottom:12 }}>
         <div style={{
-          height: 'clamp(200px, 35vw, 420px)',
+          height: 'clamp(280px, 46vw, 640px)',
           borderRadius:14, overflow:'hidden',
           border:`1px solid ${project.color}33`,
           boxShadow:`0 0 0 1px ${project.color}18, 0 16px 48px rgba(0,0,0,0.5)`,
@@ -391,8 +391,8 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
       marginBottom:'clamp(72px,9vw,120px)',
     }}>
 
-      {/* ── HEADER: right-aligned title + link opposite ── */}
-      <div style={{ marginBottom:'clamp(24px,4vw,40px)' }}>
+      {/* ── HEADER: logo + name + link, description, tech ── */}
+      <div style={{ marginBottom:'clamp(32px,5vw,52px)' }}>
 
         {/* top row: logo + name (right) | link (left) */}
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between',
@@ -434,47 +434,26 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
 
         {/* desc — right-aligned */}
         <p style={{ color:'var(--text-secondary)', fontSize:'clamp(0.9rem,1.6vw,1rem)',
-          lineHeight:1.85, maxWidth:680 }}>{project.desc}</p>
+          lineHeight:1.85, maxWidth:720, marginBottom:20 }}>{project.desc}</p>
+
+        {/* tech badges */}
+        <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
+          {project.tech.map(t=>(
+            <span key={t} style={{
+              background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)',
+              color:'var(--text-secondary)', fontSize:'0.7rem', padding:'4px 10px', borderRadius:20,
+            }}>{t}</span>
+          ))}
+        </div>
       </div>
 
-      {/* ── 2 COLUMNS: images right | text left ── */}
-      <div style={{ display:'grid',
-        gridTemplateColumns:'repeat(auto-fit, minmax(min(100%,320px),1fr))',
-        gap:'clamp(32px,5vw,64px)', alignItems:'start' }}>
-
-        {/* RIGHT — gallery */}
-        <div style={{ order: 1 }}>
-          <p style={{ fontSize:'0.65rem', color:'var(--text-muted)', letterSpacing:'1px',
-            marginBottom:12, textTransform:'uppercase', fontWeight:600, textAlign:'center' }}>
-            לחץ על תמונה לתצוגה מלאה
-          </p>
-          <ProjectGallery project={project} />
-        </div>
-
-        {/* LEFT — text details */}
-        <div style={{ order: 2 }}>
-          <div style={{ display:'flex', flexDirection:'column', gap:20, marginBottom:24 }}>
-            <div>
-              <div style={{ fontSize:'0.62rem', fontWeight:700, letterSpacing:'2px',
-                textTransform:'uppercase', color:project.color, marginBottom:8 }}>האתגר</div>
-              <p style={{ color:'var(--text-secondary)', fontSize:'0.88rem', lineHeight:1.78 }}>{project.challenge}</p>
-            </div>
-            <div>
-              <div style={{ fontSize:'0.62rem', fontWeight:700, letterSpacing:'2px',
-                textTransform:'uppercase', color:project.color, marginBottom:8 }}>התוצאה</div>
-              <p style={{ color:'var(--text-primary)', fontSize:'0.88rem', lineHeight:1.78, fontWeight:500 }}>{project.result}</p>
-            </div>
-          </div>
-
-          <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
-            {project.tech.map(t=>(
-              <span key={t} style={{
-                background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)',
-                color:'var(--text-secondary)', fontSize:'0.7rem', padding:'4px 10px', borderRadius:20,
-              }}>{t}</span>
-            ))}
-          </div>
-        </div>
+      {/* ── GALLERY — full width, large ── */}
+      <div>
+        <p style={{ fontSize:'0.65rem', color:'var(--text-muted)', letterSpacing:'1px',
+          marginBottom:12, textTransform:'uppercase', fontWeight:600, textAlign:'center' }}>
+          לחץ על תמונה לתצוגה מלאה
+        </p>
+        <ProjectGallery project={project} />
       </div>
     </div>
   )
