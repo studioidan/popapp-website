@@ -148,7 +148,7 @@ function Lightbox({ project, startIdx, onClose }: {
                 filter: i===idx ? 'none' : 'brightness(0.3)',
                 transition:'filter 0.2s',
               }}
-                onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${i}/80/60` }}
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
               />
             </button>
           ))}
@@ -190,13 +190,11 @@ function ProjectGallery({ project }: { project: typeof projects[0] }) {
       {/* fixed-height image area — never jumps */}
       <div style={{ position:'relative', marginBottom:12 }}>
         <div style={{
-          height: 'clamp(280px, 46vw, 640px)',
+          height: 'clamp(220px, 46vw, 640px)',
           borderRadius:14, overflow:'hidden',
           border:`1px solid ${project.color}33`,
           boxShadow:`0 0 0 1px ${project.color}18, 0 16px 48px rgba(0,0,0,0.5)`,
-          background: project.images[activeImg].type === 'mobile'
-            ? `linear-gradient(135deg,${project.color}10,rgba(4,7,15,0.95))`
-            : '#07071a',
+          background: `linear-gradient(135deg,${project.color}10,rgba(4,7,15,0.95))`,
           cursor:'zoom-in',
           transition:'box-shadow 0.25s',
           position:'relative',
@@ -211,11 +209,11 @@ function ProjectGallery({ project }: { project: typeof projects[0] }) {
             alt={project.images[activeImg].label}
             style={{
               width:'100%', height:'100%',
-              objectFit: project.images[activeImg].type === 'mobile' ? 'contain' : 'cover',
+              objectFit: 'contain',
               display:'block',
               animation:'imgFadeIn 0.2s ease',
             }}
-            onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${project.id}/800/600`}}
+            onError={e=>{(e.target as HTMLImageElement).style.display='none'}}
           />
 
           {/* device type badge */}
@@ -280,7 +278,7 @@ function ProjectGallery({ project }: { project: typeof projects[0] }) {
             <img src={img.src} alt={img.label}
               style={{ width:'100%', height:'100%', objectFit:'cover',
                 filter: i===activeImg ? 'none' : 'brightness(0.35)' }}
-              onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${project.id}${i}/80/60`}} />
+              onError={e=>{(e.target as HTMLImageElement).style.display='none'}} />
           </button>
         ))}
       </div>
@@ -325,7 +323,7 @@ function MiniDesktop({ src, color, label }: { src:string; color:string; label:st
         {/* image */}
         <div style={{ height:80, overflow:'hidden' }}>
           <img src={src} alt={label} style={{ width:'100%',height:'100%',objectFit:'cover',display:'block' }}
-            onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}/400/225`}} />
+            onError={e=>{(e.target as HTMLImageElement).style.display='none'}} />
         </div>
       </div>
       {/* stand */}
@@ -357,7 +355,7 @@ function MiniMobile({ src, color, label }: { src:string; color:string; label:str
         <div style={{ borderRadius:8, overflow:'hidden', aspectRatio:'9/19.5', position:'relative' }}>
           <img src={src} alt={label}
             style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
-            onError={e=>{(e.target as HTMLImageElement).src=`https://picsum.photos/seed/${src.slice(-6)}m/200/430`}}
+            onError={e=>{(e.target as HTMLImageElement).style.display='none'}}
           />
         </div>
         <div style={{ width:14, height:2, background:`${color}44`, borderRadius:1, margin:'3px auto 0' }} />
