@@ -82,7 +82,7 @@ function Lightbox({ project, startIdx, onClose }: {
       <div style={{
         flex: 1, width: '100%',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '72px 80px 100px',
+        padding: 'clamp(50px,8vw,72px) clamp(12px,4vw,80px) clamp(90px,14vw,100px)',
         position: 'relative',
         overflow: 'hidden',
         minHeight: 0,
@@ -104,7 +104,7 @@ function Lightbox({ project, startIdx, onClose }: {
             display: 'block',
             cursor: 'default',
           }}
-          onError={e => { (e.target as HTMLImageElement).src=`https://picsum.photos/seed/${img.src.slice(-6)}/1200/800` }}
+          onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
 
         {/* device type badge */}
