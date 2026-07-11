@@ -100,8 +100,40 @@ export default function ArticlePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      {/* Top bar */}
+      <Section
+        style={{
+          paddingTop: 28,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 16,
+        }}
+      >
+        <Link
+          href="/"
+          style={{ color: colors.text, fontSize: 14, textDecoration: "none", fontWeight: 600 }}
+        >
+          ← דף הבית
+        </Link>
+        <Link
+          href="/#contact"
+          style={{
+            color: colors.bg,
+            background: colors.cyan,
+            fontSize: 14,
+            fontWeight: 700,
+            textDecoration: "none",
+            padding: "8px 18px",
+            borderRadius: 999,
+          }}
+        >
+          צור קשר
+        </Link>
+      </Section>
+
       {/* Hero */}
-      <Section style={{ paddingTop: 96, paddingBottom: 48 }}>
+      <Section style={{ paddingTop: 40, paddingBottom: 48 }}>
         <Link
           href="/articles"
           style={{ color: colors.cyan, fontSize: 14, textDecoration: "none" }}

@@ -50,6 +50,36 @@ export default function ArticlesIndexPage() {
       }}
     >
       <div style={{ maxWidth: 780, margin: "0 auto" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 40,
+            gap: 16,
+          }}
+        >
+          <Link
+            href="/"
+            style={{ color: colors.text, fontSize: 14, textDecoration: "none", fontWeight: 600 }}
+          >
+            ← דף הבית
+          </Link>
+          <Link
+            href="/#contact"
+            style={{
+              color: colors.bg,
+              background: colors.cyan,
+              fontSize: 14,
+              fontWeight: 700,
+              textDecoration: "none",
+              padding: "8px 18px",
+              borderRadius: 999,
+            }}
+          >
+            צור קשר
+          </Link>
+        </div>
         <p
           style={{
             color: colors.orange,
