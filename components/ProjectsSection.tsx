@@ -1,7 +1,7 @@
 'use client'
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { ChevronRight, ChevronLeft, X, Smartphone, Monitor, ExternalLink } from 'lucide-react'
+import { ChevronRight, ChevronLeft, X, ExternalLink } from 'lucide-react'
 import { projects } from '@/lib/projects'
 
 /* ── LIGHTBOX (portal — renders at body level) ───────── */
@@ -107,18 +107,6 @@ function Lightbox({ project, startIdx, onClose }: {
           onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
 
-        {/* device type badge */}
-        <div style={{
-          position:'absolute', bottom:96, left:'50%', transform:'translateX(-50%)',
-          background:'rgba(4,7,15,0.8)', backdropFilter:'blur(12px)',
-          border:`1px solid ${project.color}33`, borderRadius:20,
-          padding:'4px 14px', fontSize:'0.7rem', color:'var(--text-muted)',
-          display:'flex', alignItems:'center', gap:6,
-          pointerEvents: 'none',
-        }}>
-          {img.type === 'mobile' ? <Smartphone size={12} /> : <Monitor size={12} />}
-          {img.type === 'mobile' ? 'Mobile' : 'Desktop'}
-        </div>
       </div>
 
       {/* bottom: thumbs + arrows */}
@@ -216,19 +204,6 @@ function ProjectGallery({ project }: { project: typeof projects[0] }) {
             onError={e=>{(e.target as HTMLImageElement).style.display='none'}}
           />
 
-          {/* device type badge */}
-          <div style={{
-            position:'absolute', bottom:10, left:10,
-            background:'rgba(4,7,15,0.75)', backdropFilter:'blur(8px)',
-            border:`1px solid ${project.color}33`, borderRadius:20,
-            padding:'3px 10px', fontSize:'0.65rem', color:'var(--text-muted)',
-            display:'flex', alignItems:'center', gap:5, pointerEvents:'none',
-          }}>
-            {project.images[activeImg].type === 'mobile'
-              ? <><Smartphone size={11} /> Mobile</>
-              : <><Monitor size={11} /> Desktop</>
-            }
-          </div>
 
           {/* label */}
           <div style={{

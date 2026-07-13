@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="he" dir="rtl">
       <body>{children}</body>
-      <GoogleAnalytics gaId="G-LJGXPVXNRW" />
+      <GoogleAnalytics gaId="G-E5FZT0H3FJ" />
     </html>
   )
 }
